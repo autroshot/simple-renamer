@@ -14,6 +14,7 @@ asarUnpack:
 afterSign: build/notarize.js
 win:
   executableName: simple-renamer
+  target: zip
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
