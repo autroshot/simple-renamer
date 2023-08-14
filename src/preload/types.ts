@@ -1,11 +1,11 @@
-import { NodeProcess } from '@electron-toolkit/preload'
+import { NodeProcess } from '@electron-toolkit/preload';
 
 declare global {
   interface Window {
-    api: Api
+    api: Api;
   }
 }
 
 export interface Api {
-  getVersions: () => NodeProcess['versions']
+  getVersions: () => NodeProcess['versions'];
 }

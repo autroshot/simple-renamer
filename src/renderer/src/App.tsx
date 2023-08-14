@@ -1,5 +1,5 @@
-import Versions from './components/Versions'
-import icons from './assets/icons.svg'
+import Versions from './components/Versions';
+import icons from './assets/icons.svg';
 
 function App(): JSX.Element {
   return (
@@ -139,7 +139,7 @@ function App(): JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
