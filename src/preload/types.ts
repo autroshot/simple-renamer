@@ -1,5 +1,3 @@
-import { NodeProcess } from '@electron-toolkit/preload';
-
 declare global {
   interface Window {
     api: Api;
@@ -7,5 +5,5 @@ declare global {
 }
 
 export interface Api {
-  getVersions: () => NodeProcess['versions'];
+  getVersions: () => NodeJS.ProcessVersions;
 }
