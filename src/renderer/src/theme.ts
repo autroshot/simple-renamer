@@ -6,6 +6,7 @@ const theme = extendTheme({
       variants: {
         simple: {
           th: {
+            position: 'relative',
             borderWidth: '0px 1px 1px 1px',
           },
           td: {

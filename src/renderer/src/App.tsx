@@ -1,5 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   ColumnDef,
   flexRender,
@@ -79,6 +79,7 @@ function App(): JSX.Element {
   const table = useReactTable({
     columns,
     data,
+    columnResizeMode: 'onChange',
     state: {
       sorting,
     },
@@ -91,12 +92,12 @@ function App(): JSX.Element {
     <>
       <Versions />
       <TableContainer>
-        <Table size="sm">
-          <Thead position="sticky" top="0" bg="white">
+        <Table size="sm" w={table.getCenterTotalSize()}>
+          <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <Th key={header.id}>
+                  <Th key={header.id} w={header.getSize()}>
                     <Button
                       size="sm"
                       rightIcon={
@@ -112,6 +113,19 @@ function App(): JSX.Element {
                     >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Button>
+                    <Box
+                      opacity={header.column.getIsResizing() ? '1' : '0'}
+                      position="absolute"
+                      right="0"
+                      top="0"
+                      h="100%"
+                      w="5px"
+                      bg={header.column.getIsResizing() ? 'blue' : 'rgba(0, 0, 0, 0.5)'}
+                      cursor="col-resize"
+                      userSelect="none"
+                      onMouseDown={header.getResizeHandler()}
+                      _hover={{ opacity: '1' }}
+                    />
                   </Th>
                 ))}
               </Tr>
@@ -121,7 +135,9 @@ function App(): JSX.Element {
             {table.getRowModel().rows.map((row) => (
               <Tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</Td>
+                  <Td key={cell.id} w={cell.column.getSize()}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
                 ))}
               </Tr>
             ))}
