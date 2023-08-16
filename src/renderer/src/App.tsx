@@ -1,5 +1,5 @@
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { Box, Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Button, Flex, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   ColumnDef,
   flexRender,
@@ -91,15 +91,18 @@ function App(): JSX.Element {
   return (
     <>
       <Versions />
-      <TableContainer>
-        <Table size="sm" w={table.getCenterTotalSize()}>
-          <Thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <Th key={header.id} w={header.getSize()}>
+      <Table size="sm" w={table.getCenterTotalSize()} whiteSpace="nowrap">
+        <Thead position="sticky" top="0">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <Tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <Th key={header.id} w={header.getSize()} p="0" bg="gray.200">
+                  <Flex>
                     <Button
+                      variant="unstyled"
                       size="sm"
+                      flex="1"
+                      borderRadius="0"
                       rightIcon={
                         header.column.getIsSorted() ? (
                           header.column.getIsSorted() === 'desc' ? (
@@ -114,36 +117,32 @@ function App(): JSX.Element {
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Button>
                     <Box
-                      opacity={header.column.getIsResizing() ? '1' : '0'}
-                      position="absolute"
-                      right="0"
-                      top="0"
-                      h="100%"
-                      w="5px"
-                      bg={header.column.getIsResizing() ? 'blue' : 'rgba(0, 0, 0, 0.5)'}
+                      w="3px"
+                      bg={header.column.getIsResizing() ? 'blue' : 'white'}
                       cursor="col-resize"
                       userSelect="none"
                       onMouseDown={header.getResizeHandler()}
-                      _hover={{ opacity: '1' }}
-                    />
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody>
-            {table.getRowModel().rows.map((row) => (
-              <Tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id} w={cell.column.getSize()}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                ))}
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+                    >
+                      &nbsp;
+                    </Box>
+                  </Flex>
+                </Th>
+              ))}
+            </Tr>
+          ))}
+        </Thead>
+        <Tbody>
+          {table.getRowModel().rows.map((row) => (
+            <Tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <Td key={cell.id} w={cell.column.getSize()}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
     </>
   );
 }
