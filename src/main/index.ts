@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { app, BrowserWindow, Menu, shell } from 'electron';
+import { app, BrowserWindow, dialog, Menu, shell } from 'electron';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
 
@@ -19,7 +19,7 @@ function createWindow(): void {
     {
       label: '파일',
       submenu: [
-        { label: '파일 추가', click: (): void => console.log('파일 추가') },
+        { label: '파일 추가', click: handleFileOpen },
         { type: 'separator' },
         { label: '종료', role: 'quit' },
       ],
@@ -83,6 +83,15 @@ function createWindow(): void {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+  }
+
+  async function handleFileOpen(): Promise<void | string[]> {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      properties: ['openFile', 'multiSelections'],
+    });
+    if (!canceled) {
+      mainWindow.webContents.send('open-file', filePaths);
+    }
   }
 }
 

@@ -1,9 +1,10 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { Api } from './types';
 
 // Custom APIs for renderer
 const api: Api = {
   getVersions: () => process.versions,
+  openFile: (callback) => ipcRenderer.on('open-file', callback),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

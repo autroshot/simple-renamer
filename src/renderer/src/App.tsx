@@ -8,11 +8,17 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Versions from './components/Versions';
 
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  useEffect(() => {
+    window.api.openFile((_event, filePaths) => {
+      console.log(filePaths);
+    });
+  }, []);
 
   const [data] = useState<Files[]>([
     {
