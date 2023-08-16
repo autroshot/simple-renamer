@@ -11,10 +11,4 @@ export interface Api {
   openFile: (callback: OpenFileCallback) => IpcRenderer;
 }
 
-type OpenFileCallback = (event: Electron.IpcRendererEvent, files: Files[]) => void;
-
-interface Files {
-  oldName: string;
-  newName: string;
-  path: string;
-}
+type OpenFileCallback = (event: Electron.IpcRendererEvent, filePaths: string[]) => void;

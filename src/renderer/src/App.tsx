@@ -15,12 +15,12 @@ function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   useEffect(() => {
-    window.api.openFile((_event, files) => {
-      console.log(files);
+    window.api.openFile((_event, filePaths) => {
+      console.log(filePaths);
     });
   }, []);
 
-  const [files] = useState<Files[]>([
+  const [data] = useState<Files[]>([
     {
       oldName: 'awesome file1',
       newName: 'awesome file1',
@@ -84,7 +84,7 @@ function App(): JSX.Element {
 
   const table = useReactTable({
     columns,
-    data: files,
+    data,
     columnResizeMode: 'onChange',
     state: {
       sorting,
