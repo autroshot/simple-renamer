@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, Menu, shell } from 'electron';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
 
@@ -9,12 +9,64 @@ function createWindow(): void {
     width: 900,
     height: 670,
     show: false,
-    autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
     },
   });
+
+  const menu = Menu.buildFromTemplate([
+    {
+      label: '파일',
+      submenu: [
+        { label: '파일 추가', click: (): void => console.log('파일 추가') },
+        { type: 'separator' },
+        { label: '종료', role: 'quit' },
+      ],
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { type: 'separator' },
+        { role: 'selectAll' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+      ],
+    },
+    {
+      label: '도움말',
+      role: 'help',
+      submenu: [
+        {
+          label: 'Electron',
+          click: async (): Promise<void> => {
+            const { shell } = require('electron');
+            await shell.openExternal('https://electronjs.org');
+          },
+        },
+      ],
+    },
+  ]);
+  Menu.setApplicationMenu(menu);
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
