@@ -1,6 +1,6 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { app, BrowserWindow, dialog, Menu, shell } from 'electron';
-import { join } from 'path';
+import { basename, dirname, join } from 'path';
 import icon from '../../resources/icon.png?asset';
 
 function createWindow(): void {
@@ -90,7 +90,16 @@ function createWindow(): void {
       properties: ['openFile', 'multiSelections'],
     });
     if (!canceled) {
-      mainWindow.webContents.send('open-file', filePaths);
+      const files: Files[] = filePaths.map((filePath) => {
+        const name = basename(filePath);
+        const path = dirname(filePath);
+        return {
+          oldName: name,
+          newName: name,
+          path,
+        };
+      });
+      mainWindow.webContents.send('open-file', files);
     }
   }
 }
@@ -129,3 +138,8 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+interface Files {
+  oldName: string;
+  newName: string;
+  path: string;
+}
