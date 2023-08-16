@@ -69,9 +69,9 @@ function App(): JSX.Element {
 
   const columns = useMemo<ColumnDef<Files>[]>(
     () => [
-      { accessorKey: 'oldName', header: '기존 이름', size: 230 },
-      { accessorKey: 'newName', header: '새 이름', size: 230 },
-      { accessorKey: 'path', header: '경로', size: 350 },
+      { accessorKey: 'oldName', header: '기존 이름', size: 230, minSize: 100 },
+      { accessorKey: 'newName', header: '새 이름', size: 230, minSize: 100 },
+      { accessorKey: 'path', header: '경로', size: 350, minSize: 100 },
     ],
     []
   );
