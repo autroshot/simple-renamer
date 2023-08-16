@@ -103,6 +103,8 @@ function App(): JSX.Element {
                       size="sm"
                       flex="1"
                       borderRadius="0"
+                      pl="16px"
+                      textAlign="left"
                       rightIcon={
                         header.column.getIsSorted() ? (
                           header.column.getIsSorted() === 'desc' ? (
@@ -117,8 +119,8 @@ function App(): JSX.Element {
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Button>
                     <Box
-                      w="3px"
-                      bg={header.column.getIsResizing() ? 'blue' : 'white'}
+                      w="5px"
+                      bg={header.column.getIsResizing() ? 'blue.500' : 'white'}
                       cursor="col-resize"
                       userSelect="none"
                       onMouseDown={header.getResizeHandler()}
