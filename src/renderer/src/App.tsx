@@ -69,9 +69,9 @@ function App(): JSX.Element {
 
   const columns = useMemo<ColumnDef<Files>[]>(
     () => [
-      { accessorKey: 'oldName', header: '기존 이름' },
-      { accessorKey: 'newName', header: '새 이름' },
-      { accessorKey: 'path', header: '경로' },
+      { accessorKey: 'oldName', header: '기존 이름', size: 230 },
+      { accessorKey: 'newName', header: '새 이름', size: 230 },
+      { accessorKey: 'path', header: '경로', size: 350 },
     ],
     []
   );
@@ -96,15 +96,17 @@ function App(): JSX.Element {
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <Th key={header.id} w={header.getSize()} p="0" bg="gray.200">
+                <Th key={header.id} w={header.getSize()} p="0" bg="gray.300">
                   <Flex>
                     <Button
                       variant="unstyled"
                       size="sm"
                       flex="1"
                       borderRadius="0"
-                      pl="16px"
+                      px="16px"
                       textAlign="left"
+                      overflow="hidden"
+                      textOverflow="ellipsis"
                       rightIcon={
                         header.column.getIsSorted() ? (
                           header.column.getIsSorted() === 'desc' ? (
@@ -119,8 +121,8 @@ function App(): JSX.Element {
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </Button>
                     <Box
-                      w="5px"
-                      bg={header.column.getIsResizing() ? 'blue.500' : 'white'}
+                      w="6px"
+                      bg={header.column.getIsResizing() ? 'blue.500' : 'gray.100'}
                       cursor="col-resize"
                       userSelect="none"
                       onMouseDown={header.getResizeHandler()}
@@ -137,7 +139,12 @@ function App(): JSX.Element {
           {table.getRowModel().rows.map((row) => (
             <Tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <Td key={cell.id} w={cell.column.getSize()}>
+                <Td
+                  key={cell.id}
+                  w={cell.column.getSize()}
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Td>
               ))}
