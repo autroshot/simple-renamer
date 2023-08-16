@@ -91,7 +91,12 @@ function App(): JSX.Element {
   return (
     <>
       <Versions />
-      <Table size="sm" w={table.getCenterTotalSize()} whiteSpace="nowrap">
+      <Table
+        size="sm"
+        w={table.getCenterTotalSize()}
+        whiteSpace="nowrap"
+        style={{ tableLayout: 'fixed' }}
+      >
         <Thead position="sticky" top="0">
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id}>
