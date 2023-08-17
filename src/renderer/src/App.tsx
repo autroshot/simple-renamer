@@ -156,14 +156,10 @@ function App(): JSX.Element {
       <Versions />
       <Box ms="3">
         <Box mt="3">
-          <Button size="sm" onClick={(): void => setFiles([])}>
-            목록 제거
-          </Button>
+          <Button onClick={(): void => setFiles([])}>목록 제거</Button>
         </Box>
         <Box mt="3">
-          <Button size="sm" onClick={(): void => onOpen()}>
-            문자 붙이기
-          </Button>
+          <Button onClick={(): void => onOpen()}>문자 붙이기</Button>
         </Box>
       </Box>
       <TableContainer>
