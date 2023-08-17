@@ -140,9 +140,16 @@ function App(): JSX.Element {
   return (
     <>
       <Versions />
-      <Button size="sm" onClick={(): void => setFiles([])}>
-        목록 제거
-      </Button>
+      <Box ms="3">
+        <Box mt="3">
+          <Button size="sm" onClick={(): void => setFiles([])}>
+            목록 제거
+          </Button>
+        </Box>
+        <Box mt="3">
+          <Button size="sm">문자 붙이기</Button>
+        </Box>
+      </Box>
       <TableContainer>
         <Table size="sm" w={table.getCenterTotalSize()} mt="3" style={{ tableLayout: 'fixed' }}>
           <Thead position="sticky" top="0">
