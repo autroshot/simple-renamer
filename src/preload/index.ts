@@ -5,6 +5,7 @@ import { Api } from './types';
 const api: Api = {
   getVersions: () => process.versions,
   openFile: (callback) => ipcRenderer.on('open-file', callback),
+  removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

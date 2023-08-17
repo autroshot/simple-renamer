@@ -14,12 +14,6 @@ import Versions from './components/Versions';
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  useEffect(() => {
-    window.api.openFile((_event, filePaths) => {
-      console.log(filePaths);
-    });
-  }, []);
-
   const [files, setFiles] = useState<Files[]>([
     {
       oldName: 'awesome file1',
@@ -72,6 +66,46 @@ function App(): JSX.Element {
       path: 'C:Users/User/Desktop/프로그래밍',
     },
   ]);
+
+  useEffect(() => {
+    window.api.openFile((_event, filePaths) => {
+      const newFiles: Files[] = [];
+
+      filePaths.forEach((filePath) => {
+        const { name, path } = getNameAndPath(filePath);
+
+        const isDuplicated = files.some((file) => {
+          return file.oldName === name && file.path === path;
+        });
+
+        if (!isDuplicated) {
+          newFiles.push({ oldName: name, newName: name, path });
+        }
+      });
+
+      setFiles([...files, ...newFiles]);
+
+      function getNameAndPath(fullPath: string): NameAndPath {
+        const name = fullPath.split('\\').pop() ?? '';
+        let path = '';
+        if (name.length === 0) {
+          path = fullPath;
+        } else {
+          path = fullPath.slice(0, -name.length - 1);
+        }
+        return { name, path };
+      }
+
+      interface NameAndPath {
+        name: string;
+        path: string;
+      }
+    });
+
+    return () => {
+      window.api.removeAllListeners('open-file');
+    };
+  });
 
   const columns = useMemo<ColumnDef<Files>[]>(
     () => [

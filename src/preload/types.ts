@@ -9,6 +9,7 @@ declare global {
 export interface Api {
   getVersions: () => NodeJS.ProcessVersions;
   openFile: (callback: OpenFileCallback) => IpcRenderer;
+  removeAllListeners: (channel: string) => void;
 }
 
 type OpenFileCallback = (event: Electron.IpcRendererEvent, filePaths: string[]) => void;
