@@ -2,6 +2,11 @@ import { extendTheme, StyleFunctionProps } from '@chakra-ui/react';
 
 const theme = extendTheme({
   components: {
+    Button: {
+      defaultProps: {
+        size: 'sm', // default is md
+      },
+    },
     Form: {
       variants: {
         floating: (props: StyleFunctionProps) => ({

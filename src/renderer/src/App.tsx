@@ -3,6 +3,19 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Radio,
+  RadioGroup,
+  Stack,
   Table,
   TableContainer,
   Tbody,
@@ -10,6 +23,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -24,7 +38,6 @@ import Versions from './components/Versions';
 
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
-
   const [files, setFiles] = useState<File[]>([
     {
       oldName: 'awesome file1',
@@ -77,6 +90,7 @@ function App(): JSX.Element {
       path: 'C:Users/User/Desktop/프로그래밍',
     },
   ]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     window.api.openFile((_event, fullPaths) => {
@@ -147,7 +161,9 @@ function App(): JSX.Element {
           </Button>
         </Box>
         <Box mt="3">
-          <Button size="sm">문자 붙이기</Button>
+          <Button size="sm" onClick={(): void => onOpen()}>
+            문자 붙이기
+          </Button>
         </Box>
       </Box>
       <TableContainer>
@@ -213,6 +229,37 @@ function App(): JSX.Element {
           </Tbody>
         </Table>
       </TableContainer>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>문자 붙이기</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <RadioGroup defaultValue="front">
+                <Stack direction="row">
+                  <Radio value="front">이름 앞에 붙이기</Radio>
+                  <Radio value="back">이름 뒤에 붙이기</Radio>
+                </Stack>
+              </RadioGroup>
+            </Box>
+            <Box mt={3}>
+              <FormControl variant="floating">
+                <Input placeholder=" " />
+                <FormLabel>문자</FormLabel>
+              </FormControl>
+            </Box>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              적용
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              취소
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }
