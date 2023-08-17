@@ -86,11 +86,11 @@ function createWindow(): void {
   }
 
   async function handleFileOpen(): Promise<void | string[]> {
-    const { canceled, filePaths } = await dialog.showOpenDialog({
+    const { canceled, filePaths: fullPaths } = await dialog.showOpenDialog({
       properties: ['openFile', 'multiSelections'],
     });
     if (!canceled) {
-      mainWindow.webContents.send('open-file', filePaths);
+      mainWindow.webContents.send('open-file', fullPaths);
     }
   }
 }

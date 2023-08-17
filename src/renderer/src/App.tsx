@@ -68,12 +68,12 @@ function App(): JSX.Element {
   ]);
 
   useEffect(() => {
-    window.api.openFile((_event, paths) => {
+    window.api.openFile((_event, fullPaths) => {
       const newFiles: File[] = [];
 
-      paths.forEach((filePath) => {
-        const name = getName(filePath);
-        const path = getPath(filePath);
+      fullPaths.forEach((fullPath) => {
+        const name = getName(fullPath);
+        const path = getPath(fullPath);
 
         const isDuplicated = files.some((file) => {
           return file.oldName === name && file.path === path;
