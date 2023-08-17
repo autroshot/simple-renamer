@@ -227,37 +227,70 @@ function App(): JSX.Element {
       </TableContainer>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>문자 붙이기</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Box>
-              <RadioGroup defaultValue="before">
-                <Stack direction="row">
-                  <Radio value="before">이름 앞에 붙이기</Radio>
-                  <Radio value="after">이름 뒤에 붙이기</Radio>
-                </Stack>
-              </RadioGroup>
-            </Box>
-            <Box mt={3}>
-              <FormControl variant="floating">
-                <Input placeholder=" " />
-                <FormLabel>문자</FormLabel>
-              </FormControl>
-            </Box>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              적용
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              취소
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+        <form onSubmit={submitHandler}>
+          <ModalContent>
+            <ModalHeader>문자 붙이기</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Box>
+                <RadioGroup name="position" defaultValue="before">
+                  <Stack direction="row">
+                    <Radio value="before">이름 앞에 붙이기</Radio>
+                    <Radio value="after">이름 뒤에 붙이기</Radio>
+                  </Stack>
+                </RadioGroup>
+              </Box>
+              <Box mt={3}>
+                <FormControl variant="floating">
+                  <Input name="text" placeholder=" " />
+                  <FormLabel>문자</FormLabel>
+                </FormControl>
+              </Box>
+            </ModalBody>
+            <ModalFooter>
+              <Button type="submit" colorScheme="blue" mr={3}>
+                적용
+              </Button>
+              <Button variant="ghost" onClick={onClose}>
+                취소
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </form>
       </Modal>
     </>
   );
+
+  function submitHandler(e: React.FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      position: { value: AddPosition };
+      text: { value: string };
+    };
+    const position = target.position.value;
+    const text = target.text.value;
+
+    const newFiles = files.map((file) => {
+      const newFile = { ...file };
+      if (position === 'before') {
+        newFile.newName = text.concat(file.newName);
+      }
+      if (position === 'after') {
+        const periodIndex = file.newName.lastIndexOf('.');
+        if (periodIndex === -1) {
+          newFile.newName = file.newName.concat(text);
+        } else {
+          newFile.newName = `${file.newName.slice(0, periodIndex)}${text}.${file.newName.slice(
+            periodIndex + 1
+          )}`;
+        }
+      }
+      return newFile;
+    });
+
+    setFiles(newFiles);
+    onClose();
+  }
 }
 
 interface File {
@@ -265,5 +298,7 @@ interface File {
   newName: string;
   path: string;
 }
+
+type AddPosition = 'before' | 'after';
 
 export default App;
