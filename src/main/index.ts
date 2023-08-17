@@ -57,9 +57,14 @@ function createWindow(): void {
       role: 'help',
       submenu: [
         {
+          label: 'Github',
+          click: async (): Promise<void> => {
+            await shell.openExternal('https://github.com/autroshot/simple-renamer');
+          },
+        },
+        {
           label: 'Electron',
           click: async (): Promise<void> => {
-            const { shell } = require('electron');
             await shell.openExternal('https://electronjs.org');
           },
         },
