@@ -72,7 +72,8 @@ function App(): JSX.Element {
       const newFiles: File[] = [];
 
       filePaths.forEach((filePath) => {
-        const { name, path } = getNameAndPath(filePath);
+        const name = getName(filePath);
+        const path = getPath(filePath);
 
         const isDuplicated = files.some((file) => {
           return file.oldName === name && file.path === path;
@@ -85,20 +86,17 @@ function App(): JSX.Element {
 
       setFiles([...files, ...newFiles]);
 
-      function getNameAndPath(fullPath: string): NameAndPath {
-        const name = fullPath.split('\\').pop() ?? '';
-        let path = '';
-        if (name.length === 0) {
-          path = fullPath;
-        } else {
-          path = fullPath.slice(0, -name.length - 1);
-        }
-        return { name, path };
+      function getName(fullPath: string): string {
+        return fullPath.split('\\').pop() ?? '';
       }
 
-      interface NameAndPath {
-        name: string;
-        path: string;
+      function getPath(fullPath: string): string {
+        const name = getName(fullPath);
+        if (name.length === 0) {
+          return fullPath;
+        } else {
+          return fullPath.slice(0, -name.length - 1);
+        }
       }
     });
 
