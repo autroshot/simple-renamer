@@ -232,10 +232,10 @@ function App(): JSX.Element {
           <ModalCloseButton />
           <ModalBody>
             <Box>
-              <RadioGroup defaultValue="front">
+              <RadioGroup defaultValue="before">
                 <Stack direction="row">
-                  <Radio value="front">이름 앞에 붙이기</Radio>
-                  <Radio value="back">이름 뒤에 붙이기</Radio>
+                  <Radio value="before">이름 앞에 붙이기</Radio>
+                  <Radio value="after">이름 뒤에 붙이기</Radio>
                 </Stack>
               </RadioGroup>
             </Box>
