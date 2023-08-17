@@ -12,4 +12,4 @@ export interface Api {
   removeAllListeners: (channel: string) => void;
 }
 
-type OpenFileCallback = (event: Electron.IpcRendererEvent, filePaths: string[]) => void;
+type OpenFileCallback = (event: Electron.IpcRendererEvent, paths: string[]) => void;

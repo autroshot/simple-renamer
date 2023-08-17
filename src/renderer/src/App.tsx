@@ -68,10 +68,10 @@ function App(): JSX.Element {
   ]);
 
   useEffect(() => {
-    window.api.openFile((_event, filePaths) => {
+    window.api.openFile((_event, paths) => {
       const newFiles: File[] = [];
 
-      filePaths.forEach((filePath) => {
+      paths.forEach((filePath) => {
         const name = getName(filePath);
         const path = getPath(filePath);
 
