@@ -1,5 +1,16 @@
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import {
   ColumnDef,
   flexRender,
@@ -132,73 +143,69 @@ function App(): JSX.Element {
       <Button size="sm" onClick={(): void => setFiles([])}>
         목록 제거
       </Button>
-      <Table
-        size="sm"
-        w={table.getCenterTotalSize()}
-        mt="3"
-        whiteSpace="nowrap"
-        style={{ tableLayout: 'fixed' }}
-      >
-        <Thead position="sticky" top="0">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Th key={header.id} w={header.getSize()} p="0" bg="gray.300">
-                  <Flex>
-                    <Button
-                      variant="unstyled"
-                      size="sm"
-                      flex="1"
-                      borderRadius="0"
-                      px="16px"
-                      textAlign="left"
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                      rightIcon={
-                        header.column.getIsSorted() ? (
-                          header.column.getIsSorted() === 'desc' ? (
-                            <TriangleDownIcon aria-label="sorted descending" />
-                          ) : (
-                            <TriangleUpIcon aria-label="sorted ascending" />
-                          )
-                        ) : undefined
-                      }
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                    </Button>
-                    <Box
-                      w="6px"
-                      bg={header.column.getIsResizing() ? 'blue.500' : 'gray.100'}
-                      cursor="col-resize"
-                      userSelect="none"
-                      onMouseDown={header.getResizeHandler()}
-                    >
-                      &nbsp;
-                    </Box>
-                  </Flex>
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Td
-                  key={cell.id}
-                  w={cell.column.getSize()}
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Td>
-              ))}
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+      <TableContainer>
+        <Table size="sm" w={table.getCenterTotalSize()} mt="3" style={{ tableLayout: 'fixed' }}>
+          <Thead position="sticky" top="0">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Th key={header.id} w={header.getSize()} p="0" bg="gray.300">
+                    <Flex>
+                      <Button
+                        variant="unstyled"
+                        size="sm"
+                        flex="1"
+                        borderRadius="0"
+                        px="16px"
+                        textAlign="left"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        rightIcon={
+                          header.column.getIsSorted() ? (
+                            header.column.getIsSorted() === 'desc' ? (
+                              <TriangleDownIcon aria-label="sorted descending" />
+                            ) : (
+                              <TriangleUpIcon aria-label="sorted ascending" />
+                            )
+                          ) : undefined
+                        }
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </Button>
+                      <Box
+                        w="6px"
+                        bg={header.column.getIsResizing() ? 'blue.500' : 'gray.100'}
+                        cursor="col-resize"
+                        userSelect="none"
+                        onMouseDown={header.getResizeHandler()}
+                      >
+                        &nbsp;
+                      </Box>
+                    </Flex>
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody>
+            {table.getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td
+                    key={cell.id}
+                    w={cell.column.getSize()}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
