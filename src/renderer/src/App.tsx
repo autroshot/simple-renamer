@@ -14,7 +14,7 @@ import Versions from './components/Versions';
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const [files, setFiles] = useState<Files[]>([
+  const [files, setFiles] = useState<File[]>([
     {
       oldName: 'awesome file1',
       newName: 'awesome file1',
@@ -69,7 +69,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     window.api.openFile((_event, filePaths) => {
-      const newFiles: Files[] = [];
+      const newFiles: File[] = [];
 
       filePaths.forEach((filePath) => {
         const { name, path } = getNameAndPath(filePath);
@@ -107,7 +107,7 @@ function App(): JSX.Element {
     };
   });
 
-  const columns = useMemo<ColumnDef<Files>[]>(
+  const columns = useMemo<ColumnDef<File>[]>(
     () => [
       { accessorKey: 'oldName', header: '기존 이름', size: 230, minSize: 100 },
       { accessorKey: 'newName', header: '새 이름', size: 230, minSize: 100 },
@@ -205,7 +205,7 @@ function App(): JSX.Element {
   );
 }
 
-interface Files {
+interface File {
   oldName: string;
   newName: string;
   path: string;
