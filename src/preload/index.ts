@@ -1,10 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import { CHANNELS } from '../constants';
 import { Api } from './types';
 
 // Custom APIs for renderer
 const api: Api = {
   getVersions: () => process.versions,
-  openFile: (callback) => ipcRenderer.on('open-file', callback),
+  openFile: (callback) => ipcRenderer.on(CHANNELS.openFile, callback),
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
 };
 

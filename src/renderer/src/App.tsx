@@ -35,6 +35,7 @@ import {
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from 'react';
 import Versions from './components/Versions';
+import { CHANNELS } from './constants';
 
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -126,7 +127,7 @@ function App(): JSX.Element {
     });
 
     return () => {
-      window.api.removeAllListeners('open-file');
+      window.api.removeAllListeners(CHANNELS.openFile);
     };
   });
 

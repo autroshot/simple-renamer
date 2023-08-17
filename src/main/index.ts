@@ -2,6 +2,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import { app, BrowserWindow, dialog, Menu, shell } from 'electron';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
+import { CHANNELS } from '../constants';
 
 function createWindow(): void {
   // Create the browser window.
@@ -95,7 +96,7 @@ function createWindow(): void {
       properties: ['openFile', 'multiSelections'],
     });
     if (!canceled) {
-      mainWindow.webContents.send('open-file', fullPaths);
+      mainWindow.webContents.send(CHANNELS.openFile, fullPaths);
     }
   }
 }
