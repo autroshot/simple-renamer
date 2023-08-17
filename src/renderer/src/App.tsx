@@ -20,7 +20,7 @@ function App(): JSX.Element {
     });
   }, []);
 
-  const [files] = useState<Files[]>([
+  const [files, setFiles] = useState<Files[]>([
     {
       oldName: 'awesome file1',
       newName: 'awesome file1',
@@ -97,9 +97,13 @@ function App(): JSX.Element {
   return (
     <>
       <Versions />
+      <Button size="sm" onClick={(): void => setFiles([])}>
+        목록 제거
+      </Button>
       <Table
         size="sm"
         w={table.getCenterTotalSize()}
+        mt="3"
         whiteSpace="nowrap"
         style={{ tableLayout: 'fixed' }}
       >
