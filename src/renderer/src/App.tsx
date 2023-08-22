@@ -1,4 +1,4 @@
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { AddIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -189,6 +189,8 @@ function App(): JSX.Element {
                     <Button
                       w="100%"
                       h="100%"
+                      borderRadius="0"
+                      leftIcon={<AddIcon />}
                       onDrop={(e): void => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -208,7 +210,7 @@ function App(): JSX.Element {
                         e.stopPropagation();
                       }}
                     >
-                      추가할 파일을 이곳에 끌어다 놓으세요.
+                      추가할 파일을 이곳에 끌어다 놓거나, 이곳을 클릭하여 추가할 파일을 선택하기
                     </Button>
                   </Flex>
                 </Td>
