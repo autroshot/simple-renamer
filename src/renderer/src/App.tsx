@@ -97,34 +97,6 @@ function App(): JSX.Element {
     window.api.openFile((_event, fullPaths) => {
       const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
       setFiles([...files, ...newFiles]);
-
-      function toFile(fullPath: string): File {
-        const name = getName(fullPath);
-        const path = getPath(fullPath);
-
-        return { oldName: name, newName: name, path };
-      }
-
-      function isDuplicatedFile(newfile: File, files: File[]): boolean {
-        return files.some((preexistenceFile) => {
-          return (
-            preexistenceFile.oldName === newfile.oldName && preexistenceFile.path === newfile.path
-          );
-        });
-      }
-
-      function getName(fullPath: string): string {
-        return fullPath.split('\\').pop() ?? '';
-      }
-
-      function getPath(fullPath: string): string {
-        const name = getName(fullPath);
-        if (name.length === 0) {
-          return fullPath;
-        } else {
-          return fullPath.slice(0, -name.length - 1);
-        }
-      }
     });
 
     return () => {
@@ -310,6 +282,32 @@ function App(): JSX.Element {
 
     setFiles(newFiles);
     onClose();
+  }
+
+  function toFile(fullPath: string): File {
+    const name = getName(fullPath);
+    const path = getPath(fullPath);
+
+    return { oldName: name, newName: name, path };
+  }
+
+  function isDuplicatedFile(newfile: File, files: File[]): boolean {
+    return files.some((preexistenceFile) => {
+      return preexistenceFile.oldName === newfile.oldName && preexistenceFile.path === newfile.path;
+    });
+  }
+
+  function getName(fullPath: string): string {
+    return fullPath.split('\\').pop() ?? '';
+  }
+
+  function getPath(fullPath: string): string {
+    const name = getName(fullPath);
+    if (name.length === 0) {
+      return fullPath;
+    } else {
+      return fullPath.slice(0, -name.length - 1);
+    }
   }
 }
 
