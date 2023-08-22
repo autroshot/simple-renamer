@@ -143,7 +143,16 @@ function App(): JSX.Element {
             onDrop={(e): void => {
               e.preventDefault();
               e.stopPropagation();
-              console.log(e.dataTransfer.files);
+
+              const newFiles = Array.from(e.dataTransfer.files)
+                .map(getFullPath)
+                .map(toFile)
+                .filter((newFile) => !isDuplicatedFile(newFile, files));
+              setFiles([...files, ...newFiles]);
+
+              function getFullPath(file: globalThis.File): string {
+                return file.path;
+              }
             }}
             onDragOver={(e): void => {
               e.preventDefault();
