@@ -159,7 +159,8 @@ function App(): JSX.Element {
                         e.stopPropagation();
                       }}
                     >
-                      추가할 파일을 이곳에 끌어다 놓거나, 이곳을 클릭하여 추가할 파일을 선택하기
+                      파일을 추가하려면 이곳에 끌어다 놓거나, 이곳을 클릭하여 추가할 파일을
+                      선택하세요.
                     </Button>
                   </Flex>
                 </Td>
