@@ -39,58 +39,7 @@ import { CHANNELS } from './constants';
 
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [files, setFiles] = useState<File[]>([
-    {
-      oldName: 'awesome file1',
-      newName: 'awesome file1',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file2',
-      newName: 'awesome file2',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file3',
-      newName: 'awesome file3',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file4',
-      newName: 'awesome file4',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file5',
-      newName: 'awesome file5',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file6',
-      newName: 'awesome file6',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file7',
-      newName: 'awesome file7',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file8',
-      newName: 'awesome file8',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file9',
-      newName: 'awesome file9',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-    {
-      oldName: 'awesome file10',
-      newName: 'awesome file10',
-      path: 'C:Users/User/Desktop/프로그래밍',
-    },
-  ]);
+  const [files, setFiles] = useState<File[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
