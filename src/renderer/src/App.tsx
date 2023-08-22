@@ -95,22 +95,23 @@ function App(): JSX.Element {
 
   useEffect(() => {
     window.api.openFile((_event, fullPaths) => {
-      const newFiles: File[] = [];
+      const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
+      setFiles([...files, ...newFiles]);
 
-      fullPaths.forEach((fullPath) => {
+      function toFile(fullPath: string): File {
         const name = getName(fullPath);
         const path = getPath(fullPath);
 
-        const isDuplicated = files.some((file) => {
-          return file.oldName === name && file.path === path;
+        return { oldName: name, newName: name, path };
+      }
+
+      function isDuplicatedFile(newfile: File, files: File[]): boolean {
+        return files.some((preexistenceFile) => {
+          return (
+            preexistenceFile.oldName === newfile.oldName && preexistenceFile.path === newfile.path
+          );
         });
-
-        if (!isDuplicated) {
-          newFiles.push({ oldName: name, newName: name, path });
-        }
-      });
-
-      setFiles([...files, ...newFiles]);
+      }
 
       function getName(fullPath: string): string {
         return fullPath.split('\\').pop() ?? '';
