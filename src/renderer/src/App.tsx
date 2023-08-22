@@ -135,33 +135,6 @@ function App(): JSX.Element {
         <Box mt="3">
           <Button onClick={(): void => onOpen()}>문자 붙이기</Button>
         </Box>
-        <Flex>
-          <Button
-            w="100%"
-            h="20"
-            mt="3"
-            onDrop={(e): void => {
-              e.preventDefault();
-              e.stopPropagation();
-
-              const newFiles = Array.from(e.dataTransfer.files)
-                .map(getFullPath)
-                .map(toFile)
-                .filter((newFile) => !isDuplicatedFile(newFile, files));
-              setFiles([...files, ...newFiles]);
-
-              function getFullPath(file: globalThis.File): string {
-                return file.path;
-              }
-            }}
-            onDragOver={(e): void => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            추가할 파일을 이곳에 끌어다 놓으세요.
-          </Button>
-        </Flex>
       </Box>
       <TableContainer>
         <Table size="sm" w={table.getCenterTotalSize()} mt="3" style={{ tableLayout: 'fixed' }}>
@@ -209,20 +182,53 @@ function App(): JSX.Element {
             ))}
           </Thead>
           <Tbody>
-            {table.getRowModel().rows.map((row) => (
-              <Tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <Td
-                    key={cell.id}
-                    w={cell.column.getSize()}
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                ))}
+            {files.length === 0 ? (
+              <Tr h="300">
+                <Td colSpan={3} p="0" h="300">
+                  <Flex h="100%">
+                    <Button
+                      w="100%"
+                      h="100%"
+                      onDrop={(e): void => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const newFiles = Array.from(e.dataTransfer.files)
+                          .map(getFullPath)
+                          .map(toFile)
+                          .filter((newFile) => !isDuplicatedFile(newFile, files));
+                        setFiles([...files, ...newFiles]);
+
+                        function getFullPath(file: globalThis.File): string {
+                          return file.path;
+                        }
+                      }}
+                      onDragOver={(e): void => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                    >
+                      추가할 파일을 이곳에 끌어다 놓으세요.
+                    </Button>
+                  </Flex>
+                </Td>
               </Tr>
-            ))}
+            ) : (
+              table.getRowModel().rows.map((row) => (
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Td
+                      key={cell.id}
+                      w={cell.column.getSize()}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </Td>
+                  ))}
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </TableContainer>
