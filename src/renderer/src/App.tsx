@@ -27,10 +27,10 @@ import {
 } from '@chakra-ui/react';
 import {
   ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from 'react';
@@ -162,6 +162,24 @@ function App(): JSX.Element {
         <Box mt="3">
           <Button onClick={(): void => onOpen()}>문자 붙이기</Button>
         </Box>
+        <Flex>
+          <Button
+            w="100%"
+            h="20"
+            mt="3"
+            onDrop={(e): void => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log(e.dataTransfer.files);
+            }}
+            onDragOver={(e): void => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            추가할 파일을 이곳에 끌어다 놓으세요.
+          </Button>
+        </Flex>
       </Box>
       <TableContainer>
         <Table size="sm" w={table.getCenterTotalSize()} mt="3" style={{ tableLayout: 'fixed' }}>
