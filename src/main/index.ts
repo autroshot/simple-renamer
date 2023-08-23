@@ -96,7 +96,7 @@ function createWindow(): void {
       properties: ['openFile', 'multiSelections'],
     });
     if (!canceled) {
-      mainWindow.webContents.send(CHANNELS.openFile, fullPaths);
+      mainWindow.webContents.send(CHANNELS.openFileMenu, fullPaths);
     }
   }
 }

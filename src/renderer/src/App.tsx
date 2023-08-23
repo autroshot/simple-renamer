@@ -49,7 +49,7 @@ function App(): JSX.Element {
     });
 
     return () => {
-      window.api.removeAllListeners(CHANNELS.openFile);
+      window.api.removeAllListeners(CHANNELS.openFileMenu);
     };
   });
 

@@ -5,7 +5,7 @@ import { Api } from './types';
 // Custom APIs for renderer
 const api: Api = {
   getVersions: () => process.versions,
-  openFile: (callback) => ipcRenderer.on(CHANNELS.openFile, callback),
+  openFile: (callback) => ipcRenderer.on(CHANNELS.openFileMenu, callback),
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
 };
 
