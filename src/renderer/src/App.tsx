@@ -41,7 +41,11 @@ import { CHANNELS } from './constants';
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [files, setFiles] = useState<File[]>([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isFormModalOpen,
+    onOpen: onFormModalOpen,
+    onClose: onFormModalClose,
+  } = useDisclosure();
 
   useEffect(() => {
     window.api.openFileMenu((_event, fullPaths) => {
@@ -84,7 +88,7 @@ function App(): JSX.Element {
           <Button onClick={(): void => setFiles([])}>목록 제거</Button>
         </HStack>
         <Box mt="3">
-          <Button onClick={(): void => onOpen()}>문자 붙이기</Button>
+          <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
         </Box>
         <Box mt="3">
           <Button
@@ -175,7 +179,7 @@ function App(): JSX.Element {
           </Tbody>
         </Table>
       </TableContainer>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isFormModalOpen} onClose={onFormModalClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit}>
           <ModalContent>
@@ -201,7 +205,7 @@ function App(): JSX.Element {
               <Button type="submit" colorScheme="blue" mr={3}>
                 적용
               </Button>
-              <Button variant="ghost" onClick={onClose}>
+              <Button variant="ghost" onClick={onFormModalClose}>
                 취소
               </Button>
             </ModalFooter>
@@ -239,7 +243,7 @@ function App(): JSX.Element {
     });
 
     setFiles(newFiles);
-    onClose();
+    onFormModalClose();
   }
 
   function handleDrop(e: React.DragEvent<HTMLDivElement>): void {
