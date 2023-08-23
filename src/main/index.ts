@@ -150,7 +150,7 @@ async function handleFileOpen(): Promise<string[]> {
 }
 
 async function handleFileRename(
-  e: IpcMainInvokeEvent,
+  _e: IpcMainInvokeEvent,
   fullPathPairs: FullPathPair[]
 ): Promise<boolean[]> {
   const results = await Promise.allSettled(
