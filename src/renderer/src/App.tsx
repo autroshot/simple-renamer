@@ -186,7 +186,7 @@ function App(): JSX.Element {
       </TableContainer>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <form onSubmit={submitHandler}>
+        <form onSubmit={handleSubmit}>
           <ModalContent>
             <ModalHeader>문자 붙이기</ModalHeader>
             <ModalCloseButton />
@@ -220,7 +220,7 @@ function App(): JSX.Element {
     </Box>
   );
 
-  function submitHandler(e: React.FormEvent<HTMLFormElement>): void {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       position: { value: AddPosition };
