@@ -141,10 +141,7 @@ function App(): JSX.Element {
                       borderRadius="0"
                       leftIcon={<AddIcon />}
                       onDrop={handleDrop}
-                      onDragOver={(e): void => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
+                      onDragOver={handleDropOver}
                     >
                       파일을 추가하려면 이곳에 끌어다 놓거나, 이곳을 클릭하여 추가할 파일을
                       선택하세요.
@@ -251,6 +248,11 @@ function App(): JSX.Element {
     function getFullPath(file: globalThis.File): string {
       return file.path;
     }
+  }
+
+  function handleDropOver(e: React.DragEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   function toFile(fullPath: string): File {
