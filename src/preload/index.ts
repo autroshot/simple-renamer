@@ -8,6 +8,7 @@ const api: Api = {
   openFile: () => ipcRenderer.invoke(CHANNELS.openFile),
   openFileMenu: (callback) => ipcRenderer.on(CHANNELS.openFileMenu, callback),
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
+  renameFile: (fullPathPairs) => ipcRenderer.invoke(CHANNELS.removeFile, fullPathPairs),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

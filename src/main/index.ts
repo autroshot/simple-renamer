@@ -1,5 +1,6 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { BrowserWindow, Menu, app, dialog, ipcMain, shell } from 'electron';
+import { BrowserWindow, IpcMainInvokeEvent, Menu, app, dialog, ipcMain, shell } from 'electron';
+import { rename } from 'fs/promises';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
 import { CHANNELS } from '../constants';
@@ -116,6 +117,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle(CHANNELS.openFile, handleFileOpen);
+  ipcMain.handle(CHANNELS.removeFile, handleFileRename);
 
   createWindow();
 
@@ -145,4 +147,27 @@ async function handleFileOpen(): Promise<string[]> {
     return fullPaths;
   }
   return [];
+}
+
+async function handleFileRename(
+  e: IpcMainInvokeEvent,
+  fullPathPairs: FullPathPair[]
+): Promise<boolean[]> {
+  const results = await Promise.allSettled(
+    fullPathPairs.map(async (fullPathPair) => {
+      await rename(fullPathPair.from, fullPathPair.to);
+    })
+  );
+  return results.map((result) => {
+    if (result.status === 'fulfilled') {
+      return true;
+    }
+    console.error(result.reason);
+    return false;
+  });
+}
+
+interface FullPathPair {
+  from: string;
+  to: string;
 }

@@ -86,6 +86,22 @@ function App(): JSX.Element {
         <Box mt="3">
           <Button onClick={(): void => onOpen()}>문자 붙이기</Button>
         </Box>
+        <Box mt="3">
+          <Button
+            onClick={async (): Promise<void> => {
+              const fullPathPairs: FullPathPair[] = files.map((file) => {
+                return {
+                  from: `${file.path}\\${file.oldName}`,
+                  to: `${file.path}\\${file.newName}`,
+                };
+              });
+              const results = await window.api.renameFile(fullPathPairs);
+              console.log(results);
+            }}
+          >
+            변경 적용
+          </Button>
+        </Box>
       </Box>
       <TableContainer>
         <Table size="sm" w={table.getCenterTotalSize()} mt="3" style={{ tableLayout: 'fixed' }}>
@@ -286,5 +302,10 @@ interface File {
 }
 
 type AddPosition = 'before' | 'after';
+
+interface FullPathPair {
+  from: string;
+  to: string;
+}
 
 export default App;
