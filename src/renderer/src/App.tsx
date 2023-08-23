@@ -75,7 +75,7 @@ function App(): JSX.Element {
   });
 
   return (
-    <Box onDrop={handleDrop} onDragOver={handleDropOver}>
+    <Box onDrop={handleDrop} onDragOver={handleDropOver} minH="610">
       <Versions />
       <Box ms="3">
         <Box mt="3">
