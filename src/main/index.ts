@@ -1,5 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { BrowserWindow, Menu, app, dialog, shell } from 'electron';
+import { BrowserWindow, Menu, app, dialog, ipcMain, shell } from 'electron';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
 import { CHANNELS } from '../constants';
@@ -115,6 +115,8 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
+  ipcMain.handle(CHANNELS.openFile, handleFileOpen);
+
   createWindow();
 
   app.on('activate', function () {
@@ -135,3 +137,12 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+async function handleFileOpen(): Promise<string[]> {
+  const { canceled, filePaths: fullPaths } = await dialog.showOpenDialog({
+    properties: ['openFile', 'multiSelections'],
+  });
+  if (!canceled) {
+    return fullPaths;
+  }
+  return [];
+}

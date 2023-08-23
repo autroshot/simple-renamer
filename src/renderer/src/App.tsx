@@ -5,6 +5,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Modal,
   ModalBody,
@@ -78,9 +79,20 @@ function App(): JSX.Element {
     <Box onDrop={handleDrop} onDragOver={handleDropOver} minH="610">
       <Versions />
       <Box ms="3">
-        <Box mt="3">
+        <HStack mt="3" spacing={3}>
+          <Button
+            onClick={async (): Promise<void> => {
+              const fullPaths = await window.api.openFile();
+              const newFiles = fullPaths
+                .map(toFile)
+                .filter((newFile) => !isDuplicatedFile(newFile, files));
+              setFiles([...files, ...newFiles]);
+            }}
+          >
+            파일 추가
+          </Button>
           <Button onClick={(): void => setFiles([])}>목록 제거</Button>
-        </Box>
+        </HStack>
         <Box mt="3">
           <Button onClick={(): void => onOpen()}>문자 붙이기</Button>
         </Box>

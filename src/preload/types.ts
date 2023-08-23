@@ -8,6 +8,7 @@ declare global {
 
 export interface Api {
   getVersions: () => NodeJS.ProcessVersions;
+  openFile: () => Promise<string[]>;
   openFileMenu: (callback: OpenFileCallback) => IpcRenderer;
   removeAllListeners: (channel: string) => void;
 }
