@@ -75,7 +75,7 @@ function App(): JSX.Element {
   });
 
   return (
-    <Box>
+    <Box onDrop={handleDrop} onDragOver={handleDropOver}>
       <Versions />
       <Box ms="3">
         <Box mt="3">
@@ -135,14 +135,7 @@ function App(): JSX.Element {
               <Tr h="300">
                 <Td colSpan={3} p="0" h="300">
                   <Flex h="100%">
-                    <Button
-                      w="100%"
-                      h="100%"
-                      borderRadius="0"
-                      leftIcon={<AddIcon />}
-                      onDrop={handleDrop}
-                      onDragOver={handleDropOver}
-                    >
+                    <Button w="100%" h="100%" borderRadius="0" leftIcon={<AddIcon />}>
                       파일을 추가하려면 이곳에 끌어다 놓거나, 이곳을 클릭하여 추가할 파일을
                       선택하세요.
                     </Button>
@@ -235,7 +228,7 @@ function App(): JSX.Element {
     onClose();
   }
 
-  function handleDrop(e: React.DragEvent<HTMLButtonElement>): void {
+  function handleDrop(e: React.DragEvent<HTMLDivElement>): void {
     e.preventDefault();
     e.stopPropagation();
 
@@ -250,7 +243,7 @@ function App(): JSX.Element {
     }
   }
 
-  function handleDropOver(e: React.DragEvent<HTMLButtonElement>): void {
+  function handleDropOver(e: React.DragEvent<HTMLDivElement>): void {
     e.preventDefault();
     e.stopPropagation();
   }
