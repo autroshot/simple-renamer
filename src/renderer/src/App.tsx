@@ -75,7 +75,7 @@ function App(): JSX.Element {
   });
 
   return (
-    <>
+    <Box>
       <Versions />
       <Box ms="3">
         <Box mt="3">
@@ -217,7 +217,7 @@ function App(): JSX.Element {
           </ModalContent>
         </form>
       </Modal>
-    </>
+    </Box>
   );
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>): void {
