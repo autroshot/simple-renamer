@@ -80,17 +80,7 @@ function App(): JSX.Element {
       <Versions />
       <Box ms="3">
         <HStack mt="3" spacing={3}>
-          <Button
-            onClick={async (): Promise<void> => {
-              const fullPaths = await window.api.openFile();
-              const newFiles = fullPaths
-                .map(toFile)
-                .filter((newFile) => !isDuplicatedFile(newFile, files));
-              setFiles([...files, ...newFiles]);
-            }}
-          >
-            파일 추가
-          </Button>
+          <Button onClick={handleAddFiles}>파일 추가</Button>
           <Button onClick={(): void => setFiles([])}>목록 제거</Button>
         </HStack>
         <Box mt="3">
@@ -160,7 +150,7 @@ function App(): JSX.Element {
             <Tr>
               <Td colSpan={3} p="0">
                 <Flex>
-                  <Button w="100%" borderRadius="0" leftIcon={<AddIcon />}>
+                  <Button w="100%" borderRadius="0" leftIcon={<AddIcon />} onClick={handleAddFiles}>
                     이곳을 클릭하여 추가할 파일을 선택하거나, 추가할 파일을 끌어다 놓으세요.
                   </Button>
                 </Flex>
@@ -254,6 +244,12 @@ function App(): JSX.Element {
   function handleDropOver(e: React.DragEvent<HTMLDivElement>): void {
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  async function handleAddFiles(): Promise<void> {
+    const fullPaths = await window.api.openFile();
+    const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
+    setFiles([...files, ...newFiles]);
   }
 
   function toFile(fullPath: string): File {
