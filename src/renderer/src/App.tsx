@@ -43,7 +43,7 @@ function App(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    window.api.openFile((_event, fullPaths) => {
+    window.api.openFileMenu((_event, fullPaths) => {
       const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
       setFiles([...files, ...newFiles]);
     });
