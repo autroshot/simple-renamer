@@ -140,20 +140,7 @@ function App(): JSX.Element {
                       h="100%"
                       borderRadius="0"
                       leftIcon={<AddIcon />}
-                      onDrop={(e): void => {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        const newFiles = Array.from(e.dataTransfer.files)
-                          .map(getFullPath)
-                          .map(toFile)
-                          .filter((newFile) => !isDuplicatedFile(newFile, files));
-                        setFiles([...files, ...newFiles]);
-
-                        function getFullPath(file: globalThis.File): string {
-                          return file.path;
-                        }
-                      }}
+                      onDrop={handleDrop}
                       onDragOver={(e): void => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -249,6 +236,21 @@ function App(): JSX.Element {
 
     setFiles(newFiles);
     onClose();
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const newFiles = Array.from(e.dataTransfer.files)
+      .map(getFullPath)
+      .map(toFile)
+      .filter((newFile) => !isDuplicatedFile(newFile, files));
+    setFiles([...files, ...newFiles]);
+
+    function getFullPath(file: globalThis.File): string {
+      return file.path;
+    }
   }
 
   function toFile(fullPath: string): File {
