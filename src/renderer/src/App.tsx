@@ -131,33 +131,29 @@ function App(): JSX.Element {
             ))}
           </Thead>
           <Tbody>
-            {files.length === 0 ? (
-              <Tr h="300">
-                <Td colSpan={3} p="0" h="300">
-                  <Flex h="100%">
-                    <Button w="100%" h="100%" borderRadius="0" leftIcon={<AddIcon />}>
-                      파일을 추가하려면 이곳에 끌어다 놓거나, 이곳을 클릭하여 추가할 파일을
-                      선택하세요.
-                    </Button>
-                  </Flex>
-                </Td>
+            {table.getRowModel().rows.map((row) => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Td
+                    key={cell.id}
+                    w={cell.column.getSize()}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
               </Tr>
-            ) : (
-              table.getRowModel().rows.map((row) => (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <Td
-                      key={cell.id}
-                      w={cell.column.getSize()}
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Td>
-                  ))}
-                </Tr>
-              ))
-            )}
+            ))}
+            <Tr>
+              <Td colSpan={3} p="0">
+                <Flex>
+                  <Button w="100%" borderRadius="0" leftIcon={<AddIcon />}>
+                    이곳을 클릭하여 추가할 파일을 선택하거나, 추가할 파일을 끌어다 놓으세요.
+                  </Button>
+                </Flex>
+              </Td>
+            </Tr>
           </Tbody>
         </Table>
       </TableContainer>
