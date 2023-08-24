@@ -35,16 +35,23 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from 'react';
+import FileRenameCompletionModal from './components/FileRenameCompletionModal';
 import Versions from './components/Versions';
 import { CHANNELS } from './constants';
 
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [files, setFiles] = useState<File[]>([]);
+  const [fileRenameResults, setFileRenameResults] = useState<boolean[]>([]);
   const {
     isOpen: isFormModalOpen,
     onOpen: onFormModalOpen,
     onClose: onFormModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isNotificationModalOpen,
+    onOpen: onNotificationModalOpen,
+    onClose: onNotificationModalClose,
   } = useDisclosure();
 
   useEffect(() => {
@@ -100,7 +107,8 @@ function App(): JSX.Element {
                 };
               });
               const results = await window.api.renameFile(fullPathPairs);
-              console.log(results);
+              setFileRenameResults(results);
+              onNotificationModalOpen();
             }}
           >
             변경 적용
@@ -212,6 +220,11 @@ function App(): JSX.Element {
           </ModalContent>
         </form>
       </Modal>
+      <FileRenameCompletionModal
+        isOpen={isNotificationModalOpen}
+        onClose={onNotificationModalClose}
+        unChangedFiles={files.filter((_file, index) => fileRenameResults[index] === false)}
+      />
     </Box>
   );
 
