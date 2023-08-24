@@ -56,7 +56,6 @@ export default function FileRenameCompletionModal({
                     </Tbody>
                   </Table>
                 </TableContainer>
-                <Box mt={3}>이외의 파일은 정상적으로 변환되었습니다.</Box>
               </>
             ) : (
               '모든 파일의 변환이 완료되었습니다.'
