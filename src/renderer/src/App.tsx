@@ -38,6 +38,7 @@ import { useEffect, useMemo, useState } from 'react';
 import FileRenameCompletionModal from './components/FileRenameCompletionModal';
 import Versions from './components/Versions';
 import { CHANNELS } from './constants';
+import { File } from './types';
 
 function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -310,12 +311,6 @@ function App(): JSX.Element {
       return fullPath.slice(0, -name.length - 1);
     }
   }
-}
-
-interface File {
-  oldName: string;
-  newName: string;
-  path: string;
 }
 
 type AddPosition = 'before' | 'after';

@@ -16,6 +16,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { File } from '@renderer/types';
 
 export default function FileRenameCompletionModal({
   isOpen,
@@ -74,10 +75,4 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   unChangedFiles: File[];
-}
-
-interface File {
-  oldName: string;
-  newName: string;
-  path: string;
 }
