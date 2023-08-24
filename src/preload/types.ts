@@ -1,4 +1,5 @@
 import { IpcRenderer } from 'electron';
+import { FullPathPair } from '../types';
 
 declare global {
   interface Window {
@@ -12,11 +13,6 @@ export interface Api {
   openFileMenu: (callback: OpenFileCallback) => IpcRenderer;
   removeAllListeners: (channel: string) => void;
   renameFile: (fullPathPairs: FullPathPair[]) => Promise<boolean[]>;
-}
-
-interface FullPathPair {
-  from: string;
-  to: string;
 }
 
 type OpenFileCallback = (event: Electron.IpcRendererEvent, fullPaths: string[]) => void;

@@ -4,6 +4,7 @@ import { rename } from 'fs/promises';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
 import { CHANNELS } from '../constants';
+import { FullPathPair } from './types';
 
 function createWindow(): void {
   // Create the browser window.
@@ -165,9 +166,4 @@ async function handleFileRename(
     console.error(result.reason);
     return false;
   });
-}
-
-interface FullPathPair {
-  from: string;
-  to: string;
 }
