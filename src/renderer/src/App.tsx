@@ -93,7 +93,7 @@ function App(): JSX.Element {
       <Box ms="3">
         <HStack mt="3" spacing={3}>
           <Button onClick={handleAddFiles}>파일 추가</Button>
-          <Button onClick={(): void => setFiles([])}>목록 제거</Button>
+          <Button onClick={(): void => setFiles([])}>목록 지우기</Button>
         </HStack>
         <HStack mt="3" spacing={3}>
           <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
