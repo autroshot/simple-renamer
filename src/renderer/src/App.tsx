@@ -99,21 +99,7 @@ function App(): JSX.Element {
           <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
         </Box>
         <Box mt="3">
-          <Button
-            onClick={async (): Promise<void> => {
-              const fullPathPairs: FullPathPair[] = files.map((file) => {
-                return {
-                  from: `${file.path}\\${file.oldName}`,
-                  to: `${file.path}\\${file.newName}`,
-                };
-              });
-              const results = await window.api.renameFile(fullPathPairs);
-              setFileRenameResults(results);
-              onNotificationModalOpen();
-            }}
-          >
-            변경 적용
-          </Button>
+          <Button onClick={handleFileNameChange}>변경 적용</Button>
         </Box>
       </Box>
       <TableContainer>
@@ -284,6 +270,18 @@ function App(): JSX.Element {
     const fullPaths = await window.api.openFile();
     const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
     setFiles([...files, ...newFiles]);
+  }
+
+  async function handleFileNameChange(): Promise<void> {
+    const fullPathPairs: FullPathPair[] = files.map((file) => {
+      return {
+        from: `${file.path}\\${file.oldName}`,
+        to: `${file.path}\\${file.newName}`,
+      };
+    });
+    const results = await window.api.renameFile(fullPathPairs);
+    setFileRenameResults(results);
+    onNotificationModalOpen();
   }
 
   function toFile(fullPath: string): File {
