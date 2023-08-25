@@ -280,6 +280,13 @@ function App(): JSX.Element {
       };
     });
     const results = await window.api.renameFile(fullPathPairs);
+    const newFiles = files.map<File>((file, index) => {
+      if (results[index] === true) {
+        return { oldName: file.newName, newName: file.newName, path: file.path };
+      }
+      return { ...file };
+    });
+    setFiles(newFiles);
     setFileRenameResults(results);
     onNotificationModalOpen();
   }
