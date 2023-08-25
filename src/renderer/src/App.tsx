@@ -95,9 +95,11 @@ function App(): JSX.Element {
           <Button onClick={handleAddFiles}>파일 추가</Button>
           <Button onClick={(): void => setFiles([])}>목록 제거</Button>
         </HStack>
-        <Box mt="3">
+        <HStack mt="3" spacing={3}>
           <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
-        </Box>
+          <Button onClick={(): void => console.log('이름 지우기')}>이름 지우기</Button>
+          <Button onClick={(): void => console.log('기존 이름으로')}>기존 이름으로</Button>
+        </HStack>
         <Box mt="3">
           <Button onClick={handleFileNameChange}>변경 적용</Button>
         </Box>
