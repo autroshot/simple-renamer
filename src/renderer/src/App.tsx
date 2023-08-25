@@ -96,7 +96,7 @@ function App(): JSX.Element {
           <Button onClick={(): void => setFiles([])}>목록 지우기</Button>
         </HStack>
         <HStack mt="3" spacing={3}>
-          <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
+          <Button onClick={onFormModalOpen}>문자 붙이기</Button>
           <Button onClick={handleNameRemove}>이름 지우기</Button>
           <Button onClick={handleNameRevert}>기존 이름으로</Button>
         </HStack>
