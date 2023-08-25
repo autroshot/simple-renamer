@@ -98,7 +98,7 @@ function App(): JSX.Element {
         <HStack mt="3" spacing={3}>
           <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
           <Button onClick={handleNameRemove}>이름 지우기</Button>
-          <Button onClick={(): void => console.log('기존 이름으로')}>기존 이름으로</Button>
+          <Button onClick={handleNameRevert}>기존 이름으로</Button>
         </HStack>
         <Box mt="3">
           <Button onClick={handleFileNameChange}>변경 적용</Button>
@@ -286,6 +286,13 @@ function App(): JSX.Element {
       }
 
       return newFile;
+    });
+    setFiles(newFiles);
+  }
+
+  function handleNameRevert(): void {
+    const newFiles = files.map<File>((file) => {
+      return { oldName: file.oldName, newName: file.oldName, path: file.path };
     });
     setFiles(newFiles);
   }
