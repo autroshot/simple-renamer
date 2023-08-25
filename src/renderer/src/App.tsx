@@ -97,7 +97,7 @@ function App(): JSX.Element {
         </HStack>
         <HStack mt="3" spacing={3}>
           <Button onClick={(): void => onFormModalOpen()}>문자 붙이기</Button>
-          <Button onClick={(): void => console.log('이름 지우기')}>이름 지우기</Button>
+          <Button onClick={handleNameRemove}>이름 지우기</Button>
           <Button onClick={(): void => console.log('기존 이름으로')}>기존 이름으로</Button>
         </HStack>
         <Box mt="3">
@@ -272,6 +272,22 @@ function App(): JSX.Element {
     const fullPaths = await window.api.openFile();
     const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
     setFiles([...files, ...newFiles]);
+  }
+
+  function handleNameRemove(): void {
+    const newFiles = files.map<File>((file) => {
+      const newFile = { ...file };
+
+      const periodIndex = file.newName.lastIndexOf('.');
+      if (periodIndex === -1) {
+        newFile.newName = '';
+      } else {
+        newFile.newName = `.${file.newName.slice(periodIndex + 1)}`;
+      }
+
+      return newFile;
+    });
+    setFiles(newFiles);
   }
 
   async function handleFileNameChange(): Promise<void> {
