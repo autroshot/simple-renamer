@@ -192,7 +192,7 @@ function App(): JSX.Element {
           </Tbody>
         </Table>
       </TableContainer>
-      <AddTextModal isOpen={isFormModalOpen} onClose={onFormModalClose} onSubmit={handleSubmit} />
+      <AddTextModal isOpen={isFormModalOpen} onClose={onFormModalClose} onSubmit={handleAddText} />
       <FileRenameCompletionModal
         isOpen={isNotificationModalOpen}
         onClose={onNotificationModalClose}
@@ -201,7 +201,7 @@ function App(): JSX.Element {
     </Box>
   );
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
+  function handleAddText(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       position: { value: AddPosition };
