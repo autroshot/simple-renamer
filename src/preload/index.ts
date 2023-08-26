@@ -9,6 +9,7 @@ const api: Api = {
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
   renameFile: (fullPathPairs) => ipcRenderer.invoke(CHANNELS.removeFile, fullPathPairs),
   clearListMenu: (callback) => ipcRenderer.on(CHANNELS.clearListMenu, callback),
+  changeMenuItemEnabled: (enabled) => ipcRenderer.invoke(CHANNELS.changeMenuItemEnabled, enabled),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

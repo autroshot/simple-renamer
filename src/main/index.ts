@@ -1,12 +1,29 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
-import { BrowserWindow, IpcMainInvokeEvent, Menu, app, dialog, ipcMain, shell } from 'electron';
+import {
+  BrowserWindow,
+  IpcMainInvokeEvent,
+  Menu,
+  MenuItem,
+  app,
+  dialog,
+  ipcMain,
+  shell,
+} from 'electron';
 import { rename } from 'fs/promises';
 import { join } from 'path';
 import icon from '../../resources/icon.png?asset';
 import { CHANNELS } from '../constants';
 import { FullPathPair } from './types';
 
-function createWindow(): void {
+const ENABLED_CHANGEABLE_MENU_ITEM_IDS = {
+  clearList: 'clearList',
+  addText: 'addText',
+  removeName: 'removeName',
+  revertName: 'revertName',
+  applyChange: 'applyChange',
+};
+
+function createWindow(): Menu {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -18,21 +35,13 @@ function createWindow(): void {
     },
   });
 
-  const MENU_ITEM_IDS = {
-    clearList: 'clearList',
-    addText: 'addText',
-    removeName: 'removeName',
-    revertName: 'revertName',
-    applyChange: 'applyChange',
-  };
-
   const menu = Menu.buildFromTemplate([
     {
       label: '파일',
       submenu: [
         { label: '파일 추가', click: handleFileOpenMenu },
         {
-          id: MENU_ITEM_IDS.clearList,
+          id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.clearList,
           label: '목록 지우기',
           enabled: false,
           click: () => mainWindow.webContents.send(CHANNELS.clearListMenu),
@@ -44,11 +53,11 @@ function createWindow(): void {
     {
       label: '변경',
       submenu: [
-        { id: MENU_ITEM_IDS.addText, label: '문자 붙이기', enabled: false },
-        { id: MENU_ITEM_IDS.removeName, label: '이름 지우기', enabled: false },
-        { id: MENU_ITEM_IDS.revertName, label: '기존 이름으로', enabled: false },
+        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.addText, label: '문자 붙이기', enabled: false },
+        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.removeName, label: '이름 지우기', enabled: false },
+        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.revertName, label: '기존 이름으로', enabled: false },
         { type: 'separator' },
-        { id: MENU_ITEM_IDS.applyChange, label: '변경 적용', enabled: false },
+        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.applyChange, label: '변경 적용', enabled: false },
       ],
     },
     {
@@ -83,6 +92,8 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 
+  return menu;
+
   async function handleFileOpenMenu(): Promise<void> {
     const { canceled, filePaths: fullPaths } = await dialog.showOpenDialog({
       properties: ['openFile', 'multiSelections'],
@@ -109,14 +120,22 @@ app.whenReady().then(() => {
 
   ipcMain.handle(CHANNELS.openFile, handleFileOpen);
   ipcMain.handle(CHANNELS.removeFile, handleFileRename);
+  ipcMain.handle(CHANNELS.changeMenuItemEnabled, handleMenuItemEnabledChange);
 
-  createWindow();
+  const menu = createWindow();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+
+  function handleMenuItemEnabledChange(_e: IpcMainInvokeEvent, enabled: boolean): void {
+    Object.keys(ENABLED_CHANGEABLE_MENU_ITEM_IDS).forEach((id) => {
+      const menuItem = menu.getMenuItemById(id) as MenuItem;
+      menuItem.enabled = enabled;
+    });
+  }
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

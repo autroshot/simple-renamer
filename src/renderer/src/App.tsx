@@ -43,9 +43,13 @@ function App(): JSX.Element {
   } = useDisclosure();
 
   useEffect(() => {
-    window.api.openFileMenu((_event, fullPaths) => {
+    window.api.openFileMenu(async (_event, fullPaths) => {
       const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
       setFiles([...files, ...newFiles]);
+
+      if (isFirstNewFile(newFiles)) {
+        await window.api.changeMenuItemEnabled(true);
+      }
     });
 
     return () => {
@@ -53,8 +57,9 @@ function App(): JSX.Element {
     };
   });
   useEffect(() => {
-    window.api.clearListMenu(() => {
+    window.api.clearListMenu(async () => {
       setFiles([]);
+      await window.api.changeMenuItemEnabled(false);
     });
 
     return () => {
@@ -88,7 +93,13 @@ function App(): JSX.Element {
       <Box ms="3">
         <HStack mt="3" spacing={3}>
           <Button onClick={handleAddFiles}>파일 추가</Button>
-          <Button isDisabled={isFilesEmpty()} onClick={(): void => setFiles([])}>
+          <Button
+            isDisabled={isFilesEmpty()}
+            onClick={async (): Promise<void> => {
+              setFiles([]);
+              await window.api.changeMenuItemEnabled(false);
+            }}
+          >
             목록 지우기
           </Button>
         </HStack>
@@ -246,6 +257,10 @@ function App(): JSX.Element {
     const fullPaths = await window.api.openFile();
     const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
     setFiles([...files, ...newFiles]);
+
+    if (isFirstNewFile(newFiles)) {
+      await window.api.changeMenuItemEnabled(true);
+    }
   }
 
   function handleNameRemove(): void {
@@ -301,6 +316,10 @@ function App(): JSX.Element {
     return files.some((preexistenceFile) => {
       return preexistenceFile.oldName === newfile.oldName && preexistenceFile.path === newfile.path;
     });
+  }
+
+  function isFirstNewFile(newFiles: File[]): boolean {
+    return files.length === 0 && newFiles.length !== 0;
   }
 
   function isFilesEmpty(): boolean {
