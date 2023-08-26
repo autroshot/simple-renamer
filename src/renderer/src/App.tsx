@@ -233,7 +233,7 @@ function App(): JSX.Element {
     onFormModalClose();
   }
 
-  function handleDrop(e: React.DragEvent<HTMLDivElement>): void {
+  async function handleDrop(e: React.DragEvent<HTMLDivElement>): Promise<void> {
     e.preventDefault();
     e.stopPropagation();
 
@@ -242,6 +242,10 @@ function App(): JSX.Element {
       .map(toFile)
       .filter((newFile) => !isDuplicatedFile(newFile, files));
     setFiles([...files, ...newFiles]);
+
+    if (isFirstNewFile(newFiles)) {
+      await window.api.changeMenuItemEnabled(true);
+    }
 
     function getFullPath(file: globalThis.File): string {
       return file.path;
