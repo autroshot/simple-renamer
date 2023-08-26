@@ -24,7 +24,6 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import AddTextModal from './components/AddTextModal';
 import FileRenameCompletionModal from './components/FileRenameCompletionModal';
-import Versions from './components/Versions';
 import { CHANNELS } from './constants';
 import { File, FullPathPair } from './types';
 
@@ -77,7 +76,6 @@ function App(): JSX.Element {
 
   return (
     <Box onDrop={handleDrop} onDragOver={handleDropOver} minH="610">
-      <Versions />
       <Box ms="3">
         <HStack mt="3" spacing={3}>
           <Button onClick={handleAddFiles}>파일 추가</Button>
