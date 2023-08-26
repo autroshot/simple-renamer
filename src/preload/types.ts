@@ -12,6 +12,7 @@ export interface Api {
   openFileMenu: (callback: OpenFileCallback) => IpcRenderer;
   removeAllListeners: (channel: string) => void;
   renameFile: (fullPathPairs: FullPathPair[]) => Promise<boolean[]>;
+  clearListMenu: (callback: () => void) => IpcRenderer;
 }
 
 type OpenFileCallback = (event: Electron.IpcRendererEvent, fullPaths: string[]) => void;

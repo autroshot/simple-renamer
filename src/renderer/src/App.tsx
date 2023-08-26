@@ -52,6 +52,15 @@ function App(): JSX.Element {
       window.api.removeAllListeners(CHANNELS.openFileMenu);
     };
   });
+  useEffect(() => {
+    window.api.clearListMenu(() => {
+      setFiles([]);
+    });
+
+    return () => {
+      window.api.removeAllListeners(CHANNELS.clearListMenu);
+    };
+  });
 
   const columns = useMemo<ColumnDef<File>[]>(
     () => [

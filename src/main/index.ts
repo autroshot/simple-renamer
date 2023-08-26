@@ -31,7 +31,12 @@ function createWindow(): void {
       label: '파일',
       submenu: [
         { label: '파일 추가', click: handleFileOpenMenu },
-        { id: MENU_ITEM_IDS.clearList, label: '목록 지우기', enabled: false },
+        {
+          id: MENU_ITEM_IDS.clearList,
+          label: '목록 지우기',
+          enabled: false,
+          click: () => mainWindow.webContents.send(CHANNELS.clearListMenu),
+        },
         { type: 'separator' },
         { label: '종료', role: 'quit' },
       ],
