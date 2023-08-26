@@ -232,12 +232,13 @@ function App(): JSX.Element {
         newFile.newName = text.concat(file.newName);
       }
       if (position === 'after') {
-        const periodIndex = file.newName.lastIndexOf('.');
+        const periodIndex = getPeriodIndex(file.newName);
         if (periodIndex === -1) {
           newFile.newName = file.newName.concat(text);
         } else {
-          newFile.newName = `${file.newName.slice(0, periodIndex)}${text}.${file.newName.slice(
-            periodIndex + 1
+          newFile.newName = `${getPureName(file.newName, periodIndex)}${text}.${getExtension(
+            file.newName,
+            periodIndex
           )}`;
         }
       }
@@ -278,11 +279,11 @@ function App(): JSX.Element {
     const newFiles = files.map<File>((file) => {
       const newFile = { ...file };
 
-      const periodIndex = file.newName.lastIndexOf('.');
+      const periodIndex = getPeriodIndex(file.newName);
       if (periodIndex === -1) {
         newFile.newName = '';
       } else {
-        newFile.newName = `.${file.newName.slice(periodIndex + 1)}`;
+        newFile.newName = `.${getExtension(file.newName, periodIndex)}`;
       }
 
       return newFile;
@@ -340,6 +341,18 @@ function App(): JSX.Element {
     } else {
       return fullPath.slice(0, -name.length - 1);
     }
+  }
+
+  function getPeriodIndex(name: string): number {
+    return name.lastIndexOf('.');
+  }
+
+  function getExtension(name: string, periodIndex: number): string {
+    return name.slice(periodIndex + 1);
+  }
+
+  function getPureName(name: string, periodIndex: number): string {
+    return name.slice(0, periodIndex);
   }
 }
 
