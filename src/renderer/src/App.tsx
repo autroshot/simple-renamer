@@ -75,7 +75,7 @@ function App(): JSX.Element {
   });
 
   return (
-    <Box onDrop={handleDrop} onDragOver={handleDropOver} minH="610">
+    <Box onDrop={handleDrop} onDragOver={handleDropOver} minH="599">
       <Box ms="3">
         <HStack mt="3" spacing={3}>
           <Button onClick={handleAddFiles}>파일 추가</Button>
