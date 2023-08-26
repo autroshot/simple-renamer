@@ -354,7 +354,92 @@ function App(): JSX.Element {
   function getPureName(name: string, periodIndex: number): string {
     return name.slice(0, periodIndex);
   }
+
+  async function filesReducer(files: File[], action: Action): Promise<File[]> {
+    switch (action.type) {
+      case 'added_files': {
+        const newFiles = action.fullPaths
+          .map(toFile)
+          .filter((newFile) => !isDuplicatedFile(newFile, files));
+        if (isFirstNewFile(newFiles, files)) {
+          await window.api.changeMenuItemEnabled(true);
+        }
+        return [...files, ...newFiles];
+      }
+      case 'cleared_files': {
+        await window.api.changeMenuItemEnabled(false);
+        return [];
+      }
+      case 'added_text': {
+        const position = action.position;
+        const text = action.text;
+
+        const newFiles = files.map((file) => {
+          const newFile = { ...file };
+          if (position === 'before') {
+            newFile.newName = text.concat(file.newName);
+          }
+          if (position === 'after') {
+            const periodIndex = getPeriodIndex(file.newName);
+            if (periodIndex === -1) {
+              newFile.newName = file.newName.concat(text);
+            } else {
+              newFile.newName = `${getPureName(file.newName, periodIndex)}${text}.${getExtension(
+                file.newName,
+                periodIndex
+              )}`;
+            }
+          }
+          return newFile;
+        });
+
+        return newFiles;
+      }
+      case 'removed_name': {
+        const newFiles = files.map<File>((file) => {
+          const newFile = { ...file };
+
+          const periodIndex = getPeriodIndex(file.newName);
+          if (periodIndex === -1) {
+            newFile.newName = '';
+          } else {
+            newFile.newName = `.${getExtension(file.newName, periodIndex)}`;
+          }
+
+          return newFile;
+        });
+        return newFiles;
+      }
+      case 'reverted_name': {
+        const newFiles = files.map<File>((file) => {
+          return { oldName: file.oldName, newName: file.oldName, path: file.path };
+        });
+        return newFiles;
+      }
+      case 'applied_change': {
+        const newFiles = files.map<File>((file, index) => {
+          if (action.changeResults[index] === true) {
+            return { oldName: file.newName, newName: file.newName, path: file.path };
+          }
+          return { ...file };
+        });
+        return newFiles;
+      }
+    }
+
+    function isFirstNewFile(newFiles: File[], files: File[]): boolean {
+      return files.length === 0 && newFiles.length !== 0;
+    }
+  }
 }
+
+type Action =
+  | { type: 'added_files'; fullPaths: string[] }
+  | { type: 'cleared_files' }
+  | { type: 'added_text'; text: string; position: AddPosition }
+  | { type: 'removed_name' }
+  | { type: 'reverted_name' }
+  | { type: 'applied_change'; changeResults: boolean[] };
 
 type AddPosition = 'before' | 'after';
 
