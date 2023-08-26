@@ -79,15 +79,25 @@ function App(): JSX.Element {
       <Box ms="3">
         <HStack mt="3" spacing={3}>
           <Button onClick={handleAddFiles}>파일 추가</Button>
-          <Button onClick={(): void => setFiles([])}>목록 지우기</Button>
+          <Button isDisabled={isFilesEmpty()} onClick={(): void => setFiles([])}>
+            목록 지우기
+          </Button>
         </HStack>
         <HStack mt="3" spacing={3}>
-          <Button onClick={onFormModalOpen}>문자 붙이기</Button>
-          <Button onClick={handleNameRemove}>이름 지우기</Button>
-          <Button onClick={handleNameRevert}>기존 이름으로</Button>
+          <Button isDisabled={isFilesEmpty()} onClick={onFormModalOpen}>
+            문자 붙이기
+          </Button>
+          <Button isDisabled={isFilesEmpty()} onClick={handleNameRemove}>
+            이름 지우기
+          </Button>
+          <Button isDisabled={isFilesEmpty()} onClick={handleNameRevert}>
+            기존 이름으로
+          </Button>
         </HStack>
         <Box mt="3">
-          <Button onClick={handleFileNameChange}>변경 적용</Button>
+          <Button isDisabled={isFilesEmpty()} onClick={handleFileNameChange}>
+            변경 적용
+          </Button>
         </Box>
       </Box>
       <TableContainer>
@@ -282,6 +292,10 @@ function App(): JSX.Element {
     return files.some((preexistenceFile) => {
       return preexistenceFile.oldName === newfile.oldName && preexistenceFile.path === newfile.path;
     });
+  }
+
+  function isFilesEmpty(): boolean {
+    return files.length === 0;
   }
 
   function getName(fullPath: string): string {
