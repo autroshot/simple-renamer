@@ -18,41 +18,32 @@ function createWindow(): void {
     },
   });
 
+  const MENU_ITEM_IDS = {
+    clearList: 'clearList',
+    addText: 'addText',
+    removeName: 'removeName',
+    revertName: 'revertName',
+    applyChange: 'applyChange',
+  };
+
   const menu = Menu.buildFromTemplate([
     {
       label: '파일',
       submenu: [
         { label: '파일 추가', click: handleFileOpenMenu },
+        { id: MENU_ITEM_IDS.clearList, label: '목록 지우기', enabled: false },
         { type: 'separator' },
         { label: '종료', role: 'quit' },
       ],
     },
     {
-      label: 'Edit',
+      label: '변경',
       submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
+        { id: MENU_ITEM_IDS.addText, label: '문자 붙이기', enabled: false },
+        { id: MENU_ITEM_IDS.removeName, label: '이름 지우기', enabled: false },
+        { id: MENU_ITEM_IDS.revertName, label: '기존 이름으로', enabled: false },
         { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        { type: 'separator' },
-        { role: 'selectAll' },
-      ],
-    },
-    {
-      label: 'View',
-      submenu: [
-        { role: 'reload' },
-        { role: 'forceReload' },
-        { role: 'toggleDevTools' },
-        { type: 'separator' },
-        { role: 'resetZoom' },
-        { role: 'zoomIn' },
-        { role: 'zoomOut' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' },
+        { id: MENU_ITEM_IDS.applyChange, label: '변경 적용', enabled: false },
       ],
     },
     {
