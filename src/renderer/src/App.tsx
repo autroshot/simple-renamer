@@ -21,15 +21,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useReducer, useState } from 'react';
 import AddTextModal from './components/AddTextModal';
 import FileRenameCompletionModal from './components/FileRenameCompletionModal';
 import { CHANNELS } from './constants';
 import { File, FullPathPair } from './types';
 
 function App(): JSX.Element {
+  const [files, dispatch] = useReducer(filesReducer, []);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [files, setFiles] = useState<File[]>([]);
   const [fileRenameResults, setFileRenameResults] = useState<boolean[]>([]);
   const {
     isOpen: isFormModalOpen,
@@ -44,12 +44,10 @@ function App(): JSX.Element {
 
   useEffect(() => {
     window.api.openFileMenu(async (_event, fullPaths) => {
-      const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
-      setFiles([...files, ...newFiles]);
-
-      if (isFirstNewFile(newFiles)) {
+      if (isFirstNewFile(fullPaths)) {
         await window.api.changeMenuItemEnabled(true);
       }
+      dispatch({ type: 'added_files', fullPaths });
     });
 
     return () => {
@@ -58,8 +56,8 @@ function App(): JSX.Element {
   });
   useEffect(() => {
     window.api.clearListMenu(async () => {
-      setFiles([]);
       await window.api.changeMenuItemEnabled(false);
+      dispatch({ type: 'cleared_files' });
     });
 
     return () => {
@@ -96,8 +94,8 @@ function App(): JSX.Element {
           <Button
             isDisabled={isFilesEmpty()}
             onClick={async (): Promise<void> => {
-              setFiles([]);
               await window.api.changeMenuItemEnabled(false);
+              dispatch({ type: 'cleared_files' });
             }}
           >
             목록 지우기
@@ -207,45 +205,20 @@ function App(): JSX.Element {
       position: { value: AddPosition };
       text: { value: string };
     };
-    const position = target.position.value;
-    const text = target.text.value;
 
-    const newFiles = files.map((file) => {
-      const newFile = { ...file };
-      if (position === 'before') {
-        newFile.newName = text.concat(file.newName);
-      }
-      if (position === 'after') {
-        const periodIndex = getPeriodIndex(file.newName);
-        if (periodIndex === -1) {
-          newFile.newName = file.newName.concat(text);
-        } else {
-          newFile.newName = `${getPureName(file.newName, periodIndex)}${text}.${getExtension(
-            file.newName,
-            periodIndex
-          )}`;
-        }
-      }
-      return newFile;
-    });
-
-    setFiles(newFiles);
     onFormModalClose();
+    dispatch({ type: 'added_text', position: target.position.value, text: target.text.value });
   }
 
   async function handleDrop(e: React.DragEvent<HTMLDivElement>): Promise<void> {
     e.preventDefault();
     e.stopPropagation();
 
-    const newFiles = Array.from(e.dataTransfer.files)
-      .map(getFullPath)
-      .map(toFile)
-      .filter((newFile) => !isDuplicatedFile(newFile, files));
-    setFiles([...files, ...newFiles]);
-
-    if (isFirstNewFile(newFiles)) {
+    const fullPaths = Array.from(e.dataTransfer.files).map(getFullPath);
+    if (isFirstNewFile(fullPaths)) {
       await window.api.changeMenuItemEnabled(true);
     }
+    dispatch({ type: 'added_files', fullPaths });
 
     function getFullPath(file: globalThis.File): string {
       return file.path;
@@ -259,35 +232,18 @@ function App(): JSX.Element {
 
   async function handleAddFiles(): Promise<void> {
     const fullPaths = await window.api.openFile();
-    const newFiles = fullPaths.map(toFile).filter((newFile) => !isDuplicatedFile(newFile, files));
-    setFiles([...files, ...newFiles]);
-
-    if (isFirstNewFile(newFiles)) {
+    if (isFirstNewFile(fullPaths)) {
       await window.api.changeMenuItemEnabled(true);
     }
+    dispatch({ type: 'added_files', fullPaths });
   }
 
   function handleNameRemove(): void {
-    const newFiles = files.map<File>((file) => {
-      const newFile = { ...file };
-
-      const periodIndex = getPeriodIndex(file.newName);
-      if (periodIndex === -1) {
-        newFile.newName = '';
-      } else {
-        newFile.newName = `.${getExtension(file.newName, periodIndex)}`;
-      }
-
-      return newFile;
-    });
-    setFiles(newFiles);
+    dispatch({ type: 'removed_name' });
   }
 
   function handleNameRevert(): void {
-    const newFiles = files.map<File>((file) => {
-      return { oldName: file.oldName, newName: file.oldName, path: file.path };
-    });
-    setFiles(newFiles);
+    dispatch({ type: 'reverted_name' });
   }
 
   async function handleFileNameChange(): Promise<void> {
@@ -298,15 +254,10 @@ function App(): JSX.Element {
       };
     });
     const results = await window.api.renameFile(fullPathPairs);
-    const newFiles = files.map<File>((file, index) => {
-      if (results[index] === true) {
-        return { oldName: file.newName, newName: file.newName, path: file.path };
-      }
-      return { ...file };
-    });
-    setFiles(newFiles);
+
     setFileRenameResults(results);
     onNotificationModalOpen();
+    dispatch({ type: 'applied_change', changeResults: results });
   }
 
   function toFile(fullPath: string): File {
@@ -322,8 +273,8 @@ function App(): JSX.Element {
     });
   }
 
-  function isFirstNewFile(newFiles: File[]): boolean {
-    return files.length === 0 && newFiles.length !== 0;
+  function isFirstNewFile(newFullPaths: string[]): boolean {
+    return files.length === 0 && newFullPaths.length !== 0;
   }
 
   function isFilesEmpty(): boolean {
