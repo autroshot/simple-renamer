@@ -73,6 +73,15 @@ function App(): JSX.Element {
       window.api.removeAllListeners(CHANNELS.menu.addText);
     };
   });
+  useEffect(() => {
+    window.api.menu.removeName(() => {
+      dispatch({ type: 'removed_name' });
+    });
+
+    return () => {
+      window.api.removeAllListeners(CHANNELS.menu.removeName);
+    };
+  });
 
   const columns = useMemo<ColumnDef<File>[]>(
     () => [

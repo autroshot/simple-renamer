@@ -6,6 +6,7 @@ const CHANNELS = {
     openFile: 'menu:open-file',
     clearList: 'menu:clear-list',
     addText: 'menu:add-text',
+    removeName: 'menu:remove-name',
   },
 };
 

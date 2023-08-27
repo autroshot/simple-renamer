@@ -16,6 +16,7 @@ export interface Api {
     openFile: (callback: OpenFileCallback) => IpcRenderer;
     clearList: (callback: () => void) => IpcRenderer;
     addText: (callback: () => void) => IpcRenderer;
+    removeName: (callback: () => void) => IpcRenderer;
   };
 }
 
