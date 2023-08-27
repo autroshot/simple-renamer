@@ -159,7 +159,7 @@ function App(): JSX.Element {
           </Button>
         </HStack>
         <Box mt="3">
-          <Button isDisabled={isFilesEmpty()} onClick={handleFileNameChange}>
+          <Button isDisabled={isFilesEmpty()} onClick={handleChangeApply}>
             변경 적용
           </Button>
         </Box>
@@ -296,7 +296,7 @@ function App(): JSX.Element {
     dispatch({ type: 'reverted_name' });
   }
 
-  async function handleFileNameChange(): Promise<void> {
+  async function handleChangeApply(): Promise<void> {
     const fullPathPairs: FullPathPair[] = files.map((file) => {
       return {
         from: `${file.path}\\${file.oldName}`,
