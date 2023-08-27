@@ -4,8 +4,8 @@
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
-    "src/preload/types.ts"
   ],
+  "files": ["src/preload/types.ts", "src/constants.ts", "src/types.ts"],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",

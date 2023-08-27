@@ -1,0 +1,1 @@
+export { CHANNELS } from '../constants';
