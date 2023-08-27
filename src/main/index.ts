@@ -65,7 +65,12 @@ function createWindow(): Menu {
           enabled: false,
           click: () => mainWindow.webContents.send(CHANNELS.menu.removeName),
         },
-        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.revertName, label: '기존 이름으로', enabled: false },
+        {
+          id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.revertName,
+          label: '기존 이름으로',
+          enabled: false,
+          click: () => mainWindow.webContents.send(CHANNELS.menu.revertName),
+        },
         { type: 'separator' },
         { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.applyChange, label: '변경 적용', enabled: false },
       ],

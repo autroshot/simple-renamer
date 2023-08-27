@@ -13,6 +13,7 @@ const api: Api = {
     clearList: (callback) => ipcRenderer.on(CHANNELS.menu.clearList, callback),
     addText: (callback) => ipcRenderer.on(CHANNELS.menu.addText, callback),
     removeName: (callback) => ipcRenderer.on(CHANNELS.menu.removeName, callback),
+    revertName: (callback) => ipcRenderer.on(CHANNELS.menu.revertName, callback),
   },
 };
 

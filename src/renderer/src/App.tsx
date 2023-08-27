@@ -82,6 +82,15 @@ function App(): JSX.Element {
       window.api.removeAllListeners(CHANNELS.menu.removeName);
     };
   });
+  useEffect(() => {
+    window.api.menu.revertName(() => {
+      dispatch({ type: 'reverted_name' });
+    });
+
+    return () => {
+      window.api.removeAllListeners(CHANNELS.menu.revertName);
+    };
+  });
 
   const columns = useMemo<ColumnDef<File>[]>(
     () => [
