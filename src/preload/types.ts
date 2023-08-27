@@ -9,11 +9,13 @@ declare global {
 
 export interface Api {
   openFile: () => Promise<string[]>;
-  openFileMenu: (callback: OpenFileCallback) => IpcRenderer;
   removeAllListeners: (channel: string) => void;
   renameFile: (fullPathPairs: FullPathPair[]) => Promise<boolean[]>;
-  clearListMenu: (callback: () => void) => IpcRenderer;
   changeMenuItemEnabled: (enabled: boolean) => Promise<void>;
+  menu: {
+    openFile: (callback: OpenFileCallback) => IpcRenderer;
+    clearList: (callback: () => void) => IpcRenderer;
+  };
 }
 
 type OpenFileCallback = (event: Electron.IpcRendererEvent, fullPaths: string[]) => void;

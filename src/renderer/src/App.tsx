@@ -43,7 +43,7 @@ function App(): JSX.Element {
   } = useDisclosure();
 
   useEffect(() => {
-    window.api.openFileMenu(async (_event, fullPaths) => {
+    window.api.menu.openFile(async (_event, fullPaths) => {
       if (isFirstNewFile(fullPaths)) {
         await window.api.changeMenuItemEnabled(true);
       }
@@ -55,7 +55,7 @@ function App(): JSX.Element {
     };
   });
   useEffect(() => {
-    window.api.clearListMenu(async () => {
+    window.api.menu.clearList(async () => {
       await window.api.changeMenuItemEnabled(false);
       dispatch({ type: 'cleared_files' });
     });

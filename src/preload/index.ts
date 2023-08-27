@@ -5,11 +5,13 @@ import { Api } from './types';
 // Custom APIs for renderer
 const api: Api = {
   openFile: () => ipcRenderer.invoke(CHANNELS.openFile),
-  openFileMenu: (callback) => ipcRenderer.on(CHANNELS.openFileMenu, callback),
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
   renameFile: (fullPathPairs) => ipcRenderer.invoke(CHANNELS.removeFile, fullPathPairs),
-  clearListMenu: (callback) => ipcRenderer.on(CHANNELS.clearListMenu, callback),
   changeMenuItemEnabled: (enabled) => ipcRenderer.invoke(CHANNELS.changeMenuItemEnabled, enabled),
+  menu: {
+    openFile: (callback) => ipcRenderer.on(CHANNELS.openFileMenu, callback),
+    clearList: (callback) => ipcRenderer.on(CHANNELS.clearListMenu, callback),
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
