@@ -5,6 +5,7 @@ const CHANNELS = {
   menu: {
     openFile: 'menu:open-file',
     clearList: 'menu:clear-list',
+    addText: 'menu:add-text',
   },
 };
 

@@ -53,7 +53,12 @@ function createWindow(): Menu {
     {
       label: '변경',
       submenu: [
-        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.addText, label: '문자 붙이기', enabled: false },
+        {
+          id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.addText,
+          label: '문자 붙이기',
+          enabled: false,
+          click: () => mainWindow.webContents.send(CHANNELS.menu.addText),
+        },
         { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.removeName, label: '이름 지우기', enabled: false },
         { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.revertName, label: '기존 이름으로', enabled: false },
         { type: 'separator' },

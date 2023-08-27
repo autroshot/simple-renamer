@@ -11,6 +11,7 @@ const api: Api = {
   menu: {
     openFile: (callback) => ipcRenderer.on(CHANNELS.menu.openFile, callback),
     clearList: (callback) => ipcRenderer.on(CHANNELS.menu.clearList, callback),
+    addText: (callback) => ipcRenderer.on(CHANNELS.menu.addText, callback),
   },
 };
 

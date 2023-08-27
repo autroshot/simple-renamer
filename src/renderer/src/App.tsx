@@ -64,6 +64,15 @@ function App(): JSX.Element {
       window.api.removeAllListeners(CHANNELS.menu.clearList);
     };
   });
+  useEffect(() => {
+    window.api.menu.addText(() => {
+      onFormModalOpen();
+    });
+
+    return () => {
+      window.api.removeAllListeners(CHANNELS.menu.addText);
+    };
+  });
 
   const columns = useMemo<ColumnDef<File>[]>(
     () => [

@@ -15,6 +15,7 @@ export interface Api {
   menu: {
     openFile: (callback: OpenFileCallback) => IpcRenderer;
     clearList: (callback: () => void) => IpcRenderer;
+    addText: (callback: () => void) => IpcRenderer;
   };
 }
 
