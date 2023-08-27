@@ -136,7 +136,7 @@ function App(): JSX.Element {
     <Box onDrop={handleDrop} onDragOver={handleDropOver} minH="599">
       <Box ms="3">
         <HStack mt="3" spacing={3}>
-          <Button onClick={handleAddFiles}>파일 추가</Button>
+          <Button onClick={handleFileAdd}>파일 추가</Button>
           <Button
             isDisabled={isFilesEmpty()}
             onClick={async (): Promise<void> => {
@@ -227,7 +227,7 @@ function App(): JSX.Element {
             <Tr>
               <Td colSpan={3} p="0">
                 <Flex>
-                  <Button w="100%" borderRadius="0" leftIcon={<AddIcon />} onClick={handleAddFiles}>
+                  <Button w="100%" borderRadius="0" leftIcon={<AddIcon />} onClick={handleFileAdd}>
                     이곳을 클릭하여 추가할 파일을 선택하거나, 추가할 파일을 끌어다 놓으세요.
                   </Button>
                 </Flex>
@@ -280,7 +280,7 @@ function App(): JSX.Element {
     e.stopPropagation();
   }
 
-  async function handleAddFiles(): Promise<void> {
+  async function handleFileAdd(): Promise<void> {
     const fullPaths = await window.api.openFile();
     if (isFirstNewFile(fullPaths)) {
       await window.api.changeMenuItemEnabled(true);
