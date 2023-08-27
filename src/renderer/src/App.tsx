@@ -355,19 +355,15 @@ function App(): JSX.Element {
     return name.slice(0, periodIndex);
   }
 
-  async function filesReducer(files: File[], action: Action): Promise<File[]> {
+  function filesReducer(files: File[], action: Action): File[] {
     switch (action.type) {
       case 'added_files': {
         const newFiles = action.fullPaths
           .map(toFile)
           .filter((newFile) => !isDuplicatedFile(newFile, files));
-        if (isFirstNewFile(newFiles, files)) {
-          await window.api.changeMenuItemEnabled(true);
-        }
         return [...files, ...newFiles];
       }
       case 'cleared_files': {
-        await window.api.changeMenuItemEnabled(false);
         return [];
       }
       case 'added_text': {
@@ -425,10 +421,6 @@ function App(): JSX.Element {
         });
         return newFiles;
       }
-    }
-
-    function isFirstNewFile(newFiles: File[], files: File[]): boolean {
-      return files.length === 0 && newFiles.length !== 0;
     }
   }
 }
