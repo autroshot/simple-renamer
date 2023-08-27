@@ -44,7 +44,7 @@ function createWindow(): Menu {
           id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.clearList,
           label: '목록 지우기',
           enabled: false,
-          click: () => mainWindow.webContents.send(CHANNELS.clearListMenu),
+          click: () => mainWindow.webContents.send(CHANNELS.menu.clearList),
         },
         { type: 'separator' },
         { label: '종료', role: 'quit' },
@@ -99,7 +99,7 @@ function createWindow(): Menu {
       properties: ['openFile', 'multiSelections'],
     });
     if (!canceled) {
-      mainWindow.webContents.send(CHANNELS.openFileMenu, fullPaths);
+      mainWindow.webContents.send(CHANNELS.menu.openFile, fullPaths);
     }
   }
 }

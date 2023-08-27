@@ -51,7 +51,7 @@ function App(): JSX.Element {
     });
 
     return () => {
-      window.api.removeAllListeners(CHANNELS.openFileMenu);
+      window.api.removeAllListeners(CHANNELS.menu.openFile);
     };
   });
   useEffect(() => {
@@ -61,7 +61,7 @@ function App(): JSX.Element {
     });
 
     return () => {
-      window.api.removeAllListeners(CHANNELS.clearListMenu);
+      window.api.removeAllListeners(CHANNELS.menu.clearList);
     };
   });
 

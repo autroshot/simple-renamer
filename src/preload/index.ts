@@ -9,8 +9,8 @@ const api: Api = {
   renameFile: (fullPathPairs) => ipcRenderer.invoke(CHANNELS.removeFile, fullPathPairs),
   changeMenuItemEnabled: (enabled) => ipcRenderer.invoke(CHANNELS.changeMenuItemEnabled, enabled),
   menu: {
-    openFile: (callback) => ipcRenderer.on(CHANNELS.openFileMenu, callback),
-    clearList: (callback) => ipcRenderer.on(CHANNELS.clearListMenu, callback),
+    openFile: (callback) => ipcRenderer.on(CHANNELS.menu.openFile, callback),
+    clearList: (callback) => ipcRenderer.on(CHANNELS.menu.clearList, callback),
   },
 };
 
