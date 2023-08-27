@@ -32,9 +32,9 @@ function App(): JSX.Element {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [fileRenameResults, setFileRenameResults] = useState<boolean[]>([]);
   const {
-    isOpen: isFormModalOpen,
-    onOpen: onFormModalOpen,
-    onClose: onFormModalClose,
+    isOpen: isAddTextModalOpen,
+    onOpen: onAddTextModalOpen,
+    onClose: onAddTextModalClose,
   } = useDisclosure();
   const {
     isOpen: isNotificationModalOpen,
@@ -66,7 +66,7 @@ function App(): JSX.Element {
   });
   useEffect(() => {
     window.api.menu.addText(() => {
-      onFormModalOpen();
+      onAddTextModalOpen();
     });
 
     return () => {
@@ -111,7 +111,7 @@ function App(): JSX.Element {
           </Button>
         </HStack>
         <HStack mt="3" spacing={3}>
-          <Button isDisabled={isFilesEmpty()} onClick={onFormModalOpen}>
+          <Button isDisabled={isFilesEmpty()} onClick={onAddTextModalOpen}>
             문자 붙이기
           </Button>
           <Button isDisabled={isFilesEmpty()} onClick={handleNameRemove}>
@@ -199,7 +199,11 @@ function App(): JSX.Element {
           </Tbody>
         </Table>
       </TableContainer>
-      <AddTextModal isOpen={isFormModalOpen} onClose={onFormModalClose} onSubmit={handleAddText} />
+      <AddTextModal
+        isOpen={isAddTextModalOpen}
+        onClose={onAddTextModalClose}
+        onSubmit={handleAddText}
+      />
       <FileRenameCompletionModal
         isOpen={isNotificationModalOpen}
         onClose={onNotificationModalClose}
@@ -215,7 +219,7 @@ function App(): JSX.Element {
       text: { value: string };
     };
 
-    onFormModalClose();
+    onAddTextModalClose();
     dispatch({ type: 'added_text', position: target.position.value, text: target.text.value });
   }
 
