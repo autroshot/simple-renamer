@@ -91,6 +91,25 @@ function App(): JSX.Element {
       window.api.removeAllListeners(CHANNELS.menu.revertName);
     };
   });
+  useEffect(() => {
+    window.api.menu.applyChange(async () => {
+      const fullPathPairs: FullPathPair[] = files.map((file) => {
+        return {
+          from: `${file.path}\\${file.oldName}`,
+          to: `${file.path}\\${file.newName}`,
+        };
+      });
+      const results = await window.api.renameFile(fullPathPairs);
+
+      setFileRenameResults(results);
+      onNotificationModalOpen();
+      dispatch({ type: 'applied_change', changeResults: results });
+    });
+
+    return () => {
+      window.api.removeAllListeners(CHANNELS.menu.applyChange);
+    };
+  });
 
   const columns = useMemo<ColumnDef<File>[]>(
     () => [

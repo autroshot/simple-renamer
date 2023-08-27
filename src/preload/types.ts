@@ -18,6 +18,7 @@ export interface Api {
     addText: (callback: () => void) => IpcRenderer;
     removeName: (callback: () => void) => IpcRenderer;
     revertName: (callback: () => void) => IpcRenderer;
+    applyChange: (callback: () => void) => IpcRenderer;
   };
 }
 

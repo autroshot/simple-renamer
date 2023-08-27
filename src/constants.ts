@@ -8,6 +8,7 @@ const CHANNELS = {
     addText: 'menu:add-text',
     removeName: 'menu:remove-name',
     revertName: 'menu:revert-name',
+    applyChange: 'menu:apply-change',
   },
 };
 

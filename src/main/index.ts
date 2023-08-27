@@ -72,7 +72,12 @@ function createWindow(): Menu {
           click: () => mainWindow.webContents.send(CHANNELS.menu.revertName),
         },
         { type: 'separator' },
-        { id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.applyChange, label: '변경 적용', enabled: false },
+        {
+          id: ENABLED_CHANGEABLE_MENU_ITEM_IDS.applyChange,
+          label: '변경 적용',
+          enabled: false,
+          click: () => mainWindow.webContents.send(CHANNELS.menu.applyChange),
+        },
       ],
     },
     {

@@ -14,6 +14,7 @@ const api: Api = {
     addText: (callback) => ipcRenderer.on(CHANNELS.menu.addText, callback),
     removeName: (callback) => ipcRenderer.on(CHANNELS.menu.removeName, callback),
     revertName: (callback) => ipcRenderer.on(CHANNELS.menu.revertName, callback),
+    applyChange: (callback) => ipcRenderer.on(CHANNELS.menu.applyChange, callback),
   },
 };
 
