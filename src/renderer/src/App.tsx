@@ -47,7 +47,7 @@ function App(): JSX.Element {
       if (isFirstNewFile(fullPaths)) {
         await window.api.changeMenuItemEnabled(true);
       }
-      dispatch({ type: 'added_files', fullPaths });
+      dispatch({ type: 'added_file', fullPaths });
     });
 
     return () => {
@@ -57,7 +57,7 @@ function App(): JSX.Element {
   useEffect(() => {
     window.api.menu.clearList(async () => {
       await window.api.changeMenuItemEnabled(false);
-      dispatch({ type: 'cleared_files' });
+      dispatch({ type: 'cleared_file' });
     });
 
     return () => {
@@ -141,7 +141,7 @@ function App(): JSX.Element {
             isDisabled={isFilesEmpty()}
             onClick={async (): Promise<void> => {
               await window.api.changeMenuItemEnabled(false);
-              dispatch({ type: 'cleared_files' });
+              dispatch({ type: 'cleared_file' });
             }}
           >
             목록 지우기
@@ -268,7 +268,7 @@ function App(): JSX.Element {
     if (isFirstNewFile(fullPaths)) {
       await window.api.changeMenuItemEnabled(true);
     }
-    dispatch({ type: 'added_files', fullPaths });
+    dispatch({ type: 'added_file', fullPaths });
 
     function getFullPath(file: globalThis.File): string {
       return file.path;
@@ -285,7 +285,7 @@ function App(): JSX.Element {
     if (isFirstNewFile(fullPaths)) {
       await window.api.changeMenuItemEnabled(true);
     }
-    dispatch({ type: 'added_files', fullPaths });
+    dispatch({ type: 'added_file', fullPaths });
   }
 
   function handleNameRemove(): void {
@@ -358,13 +358,13 @@ function App(): JSX.Element {
 
   function filesReducer(files: File[], action: Action): File[] {
     switch (action.type) {
-      case 'added_files': {
+      case 'added_file': {
         const newFiles = action.fullPaths
           .map(toFile)
           .filter((newFile) => !isDuplicatedFile(newFile, files));
         return [...files, ...newFiles];
       }
-      case 'cleared_files': {
+      case 'cleared_file': {
         return [];
       }
       case 'added_text': {
@@ -427,8 +427,8 @@ function App(): JSX.Element {
 }
 
 type Action =
-  | { type: 'added_files'; fullPaths: string[] }
-  | { type: 'cleared_files' }
+  | { type: 'added_file'; fullPaths: string[] }
+  | { type: 'cleared_file' }
   | { type: 'added_text'; text: string; position: AddPosition }
   | { type: 'removed_name' }
   | { type: 'reverted_name' }
