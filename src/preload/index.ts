@@ -6,7 +6,7 @@ import { Api } from './types';
 const api: Api = {
   openFile: () => ipcRenderer.invoke(CHANNELS.openFile),
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
-  renameFile: (fullPathPairs) => ipcRenderer.invoke(CHANNELS.removeFile, fullPathPairs),
+  applyChange: (fullPathPairs) => ipcRenderer.invoke(CHANNELS.removeFile, fullPathPairs),
   changeMenuItemEnabled: (enabled) => ipcRenderer.invoke(CHANNELS.changeMenuItemEnabled, enabled),
   menu: {
     openFile: (callback) => ipcRenderer.on(CHANNELS.menu.openFile, callback),

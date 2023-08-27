@@ -10,7 +10,7 @@ declare global {
 export interface Api {
   openFile: () => Promise<string[]>;
   removeAllListeners: (channel: string) => void;
-  renameFile: (fullPathPairs: FullPathPair[]) => Promise<boolean[]>;
+  applyChange: (fullPathPairs: FullPathPair[]) => Promise<boolean[]>;
   changeMenuItemEnabled: (enabled: boolean) => Promise<void>;
   menu: {
     openFile: (callback: OpenFileCallback) => IpcRenderer;

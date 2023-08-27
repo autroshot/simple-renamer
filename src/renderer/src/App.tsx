@@ -99,7 +99,7 @@ function App(): JSX.Element {
           to: `${file.path}\\${file.newName}`,
         };
       });
-      const results = await window.api.renameFile(fullPathPairs);
+      const results = await window.api.applyChange(fullPathPairs);
 
       setFileRenameResults(results);
       onNotificationModalOpen();
@@ -303,7 +303,7 @@ function App(): JSX.Element {
         to: `${file.path}\\${file.newName}`,
       };
     });
-    const results = await window.api.renameFile(fullPathPairs);
+    const results = await window.api.applyChange(fullPathPairs);
 
     setFileRenameResults(results);
     onNotificationModalOpen();
