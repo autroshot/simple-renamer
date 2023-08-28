@@ -2,6 +2,8 @@
 
 파일의 이름을 변경하는 프로그램입니다.
 
+![screenshot](https://github.com/autroshot/simple-renamer/assets/95019875/d92fe2a0-6247-480f-833e-73151c440e35)
+
 ## 실행 방법
 
 ### 패키징된 애플리케이션 실행하기
